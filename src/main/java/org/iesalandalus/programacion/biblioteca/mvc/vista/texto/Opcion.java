@@ -77,7 +77,7 @@ public enum Opcion {
 			vista.listarPrestamosLibro();
 		}
 	},
-	LISTAR_PRESTAMOS_FECHA("Listar préstamos con una fecha concreta") {
+	LISTAR_PRESTAMOS_FECHA("Listar préstamos de un mes") {
 		public void ejecutar() {
 			vista.listarPrestamosFecha();
 		}
@@ -121,6 +121,9 @@ public enum Opcion {
 	 * @param vista
 	 */
 	protected static void setVista(VistaTexto vista) {
+		if (vista == null) {
+			throw new NullPointerException("ERROR: La vista no puede ser nula.");
+		}
 		Opcion.vista = vista;
 	}
 	

@@ -67,17 +67,14 @@ public class Consola {
 	 * @return Alumno
 	 */
 	public static Alumno leerAlumno() {
-		Alumno alumno = null;
 		Curso curso = null;
-		String nombre;
-		String correo;
-		int numeroCurso;
 		
 		System.out.print("Introduce el nombre del alumno: ");
-		nombre = Entrada.cadena();
+		String nombre = Entrada.cadena();
 		System.out.print("Introduce el correo del alumno: ");
-		correo = Entrada.cadena();
+		String correo = Entrada.cadena();
 		
+		int numeroCurso;
 		do {
 			System.out.print("Introduce el curso del alumno: ");
 			numeroCurso = Entrada.entero();
@@ -97,8 +94,7 @@ public class Consola {
 			curso = Curso.CUARTO;
 			break;
 		}
-		alumno = new Alumno(nombre, correo, curso); 
-		return alumno;
+		return new Alumno(nombre, correo, curso); 
 	}
 	
 	/**
@@ -115,13 +111,12 @@ public class Consola {
 	 * @return Libro
 	 */
 	public static Libro leerLibro() {
-		Libro libro = null;
-		int tipoLibro = 0;
 		System.out.print("Introduce el título del libro: ");
 		String titulo = Entrada.cadena();
 		System.out.print("Introduce el autor del libro: ");
 		String autor = Entrada.cadena();
 		
+		int tipoLibro = 0;
 		do {
 			System.out.println("Introduce el tipo de libro:");
 			System.out.println("1.- Libro Escrito");
@@ -129,6 +124,7 @@ public class Consola {
 			tipoLibro = Entrada.entero();
 		} while (tipoLibro<1 && tipoLibro>2);
 		
+		Libro libro = null;
 		if (tipoLibro == 1) {
 			System.out.print("Introduce el número de páginas del libro: ");
 			int numPaginas = Entrada.entero();

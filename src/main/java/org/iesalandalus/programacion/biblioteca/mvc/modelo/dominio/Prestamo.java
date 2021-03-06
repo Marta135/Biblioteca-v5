@@ -63,7 +63,7 @@ public class Prestamo implements Serializable {
 	 */
 	public void devolver (LocalDate fechaDevolucion) throws NullPointerException, IllegalArgumentException {
 		if (this.fechaDevolucion != null) {
-			throw new IllegalArgumentException("ERROR: La devolución ya está registrada.");
+			throw new IllegalArgumentException("ERROR: La devolución ya estaba registrada.");
 		}
 		setFechaDevolucion(fechaDevolucion);
 	}

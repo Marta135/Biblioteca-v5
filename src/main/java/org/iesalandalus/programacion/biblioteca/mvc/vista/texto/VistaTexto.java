@@ -24,7 +24,7 @@ public class VistaTexto implements IVista {
 	/**
 	 * Constructor para instanciar objetos de esta clase.
 	 */
-	public VistaTexto() {
+	public VistaTexto() throws NullPointerException {
 		Opcion.setVista(this);
 	}
 	
@@ -33,6 +33,9 @@ public class VistaTexto implements IVista {
 	 * @param controlador
 	 */
 	public void setControlador(IControlador controlador) {
+		if (controlador == null) {
+			throw new NullPointerException("ERROR: El controlador no puede ser nulo.");
+		}
 		this.controlador = controlador;
 	}
 	
@@ -75,9 +78,8 @@ public class VistaTexto implements IVista {
 	 */
 	public void buscarAlumno() {
 		Consola.mostrarCabecera("BUSCAR ALUMNO");
-		Alumno alumno;
 		try {
-			alumno = controlador.buscar(Consola.leerAlumnoFicticio());
+			Alumno alumno = controlador.buscar(Consola.leerAlumnoFicticio());
 			String mensaje = (alumno != null) ? alumno.toString() : "No existe dicho alumno.";
 			System.out.println(mensaje);
 		} catch (IllegalArgumentException | NullPointerException e) {
@@ -134,9 +136,8 @@ public class VistaTexto implements IVista {
 	 */
 	public void buscarLibro() {
 		Consola.mostrarCabecera("BUSCAR LIBRO");
-		Libro libro;
 		try {
-			libro = controlador.buscar(Consola.leerLibroFicticio());
+			Libro libro = controlador.buscar(Consola.leerLibroFicticio());
 			String mensaje = (libro != null) ? libro.toString() : "No existe dicho libro.";
 			System.out.println(mensaje);
 		} catch (IllegalArgumentException | NullPointerException e) {
@@ -182,8 +183,9 @@ public class VistaTexto implements IVista {
 	public void prestarLibro() {
 		Consola.mostrarCabecera("PRÉSTAMO DE LIBRO");
 		try {
-			controlador.prestar(Consola.leerPrestamo());
-			System.out.println("Libro prestado correctamente.");
+			Prestamo prestamo = Consola.leerPrestamo();
+			controlador.prestar(prestamo);
+			System.out.println("Préstamo realizado correctamente.");
 		} catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
 			System.out.println(e.getMessage());
 		}
@@ -207,9 +209,8 @@ public class VistaTexto implements IVista {
 	 */
 	public void buscarPrestamo() {
 		Consola.mostrarCabecera("BUSCAR PRÉSTAMO");
-		Prestamo prestamo;
 		try {
-			prestamo = controlador.buscar(Consola.leerPrestamoFicticio());
+			Prestamo prestamo = controlador.buscar(Consola.leerPrestamoFicticio());
 			String mensaje = (prestamo != null) ? prestamo.toString() : "No existe dicho préstamo.";
 			System.out.println(mensaje);
 		} catch (IllegalArgumentException | NullPointerException e) {
@@ -319,16 +320,13 @@ public class VistaTexto implements IVista {
 	public void mostrarEstadisticaMensualPorCurso() {
 		Consola.mostrarCabecera("ESTADÍSTICA MENSUAL POR CURSO");
 		try {
-			Map<Curso, Integer> estadisticasMensualesPorCurso = controlador.getEstadisticaMensualPorCurso(Consola.leerFecha());
-			if (!estadisticasMensualesPorCurso.isEmpty()) {
-				System.out.println(estadisticasMensualesPorCurso);
-			} else {
-				System.out.println("No hay estadísticas mensuales a mostrar para ese mes");
+			Map<Curso, Integer> estadisticasMensualPorCurso = controlador.getEstadisticaMensualPorCurso(Consola.leerFecha());
+			for (Map.Entry<Curso, Integer> entrada : estadisticasMensualPorCurso.entrySet()) {
+				System.out.printf("%s -> %d puntos.%n", entrada.getKey(), entrada.getValue());
 			}
 		} catch (NullPointerException e) {
 			System.out.println(e.getMessage());
 		}
-		
 	}
 
 }
