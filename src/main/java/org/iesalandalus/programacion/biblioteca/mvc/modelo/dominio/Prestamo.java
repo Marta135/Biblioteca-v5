@@ -1,15 +1,18 @@
 package org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
-public class Prestamo {
+public class Prestamo implements Serializable {
 
 	/*********ATRIBUTOS*********/
 	
 	private static final int MAX_DIAS_PRESTAMO = 20;
 	public static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	
 	private LocalDate fechaPrestamo;
 	private LocalDate fechaDevolucion;
 	private Alumno alumno;
@@ -38,13 +41,10 @@ public class Prestamo {
 		if(copiaPrestamo == null) {
 			throw new NullPointerException("ERROR: No es posible copiar un préstamo nulo.");
 		}
-		setAlumno(copiaPrestamo.getAlumno());
-		setLibro(copiaPrestamo.getLibro());
-		setFechaPrestamo(copiaPrestamo.getFechaPrestamo());
-		
-		if(copiaPrestamo.getFechaDevolucion() != null) {
-			setFechaDevolucion(copiaPrestamo.getFechaDevolucion());
-		}
+		alumno = copiaPrestamo.getAlumno();
+		libro = copiaPrestamo.getLibro();
+		fechaPrestamo = copiaPrestamo.getFechaPrestamo();
+		fechaDevolucion = copiaPrestamo.getFechaDevolucion();
 	}
 	
 	/**
@@ -54,12 +54,6 @@ public class Prestamo {
 	 * @return correo, titulo, autor y fechaPrestamo.
 	 */
 	public static Prestamo getPrestamoFicticio (Alumno alumno, Libro libro) throws NullPointerException, IllegalArgumentException {
-		if(alumno == null) {
-			throw new NullPointerException("ERROR: El alumno no puede ser nulo.");
-		}
-		if(libro == null) {
-			throw new NullPointerException("ERROR: El libro no puede ser nulo.");
-		}
 		return new Prestamo(alumno, libro, LocalDate.now());
 	}
 	
@@ -68,8 +62,12 @@ public class Prestamo {
 	 * @param fechaDevolucion
 	 */
 	public void devolver (LocalDate fechaDevolucion) throws NullPointerException, IllegalArgumentException {
+		if (this.fechaDevolucion != null) {
+			throw new IllegalArgumentException("ERROR: La devolución ya está registrada.");
+		}
 		setFechaDevolucion(fechaDevolucion);
 	}
+	
 	
 	public int getPuntos() {
 		if(getFechaDevolucion() == null) {
@@ -169,9 +167,6 @@ public class Prestamo {
 	 * @param fechaDevolucion
 	 */
 	private void setFechaDevolucion(LocalDate fechaDevolucion) {
-		if(this.fechaDevolucion != null) {
-			throw new IllegalArgumentException("ERROR: La devolución ya estaba registrada.");
-		}
 		if(fechaDevolucion == null) {
 			throw new NullPointerException("ERROR: La fecha de devolución no puede ser nula.");
 		}
@@ -192,11 +187,7 @@ public class Prestamo {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((alumno == null) ? 0 : alumno.hashCode());
-		result = prime * result + ((libro == null) ? 0 : libro.hashCode());
-		return result;
+		return Objects.hash(alumno, libro);
 	}
 
 	/**
@@ -205,24 +196,14 @@ public class Prestamo {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (!(obj instanceof Prestamo)) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		Prestamo other = (Prestamo) obj;
-		if (alumno == null) {
-			if (other.alumno != null)
-				return false;
-		} else if (!alumno.equals(other.alumno))
-			return false;
-		if (libro == null) {
-			if (other.libro != null)
-				return false;
-		} else if (!libro.equals(other.libro))
-			return false;
-		return true;
+		return Objects.equals(alumno, other.alumno) && Objects.equals(libro, other.libro);
 	}
 
 	/**
@@ -233,10 +214,10 @@ public class Prestamo {
 	public String toString() {
 		if(fechaDevolucion == null) {
 			return String.format("alumno=(%s), libro=(%s), fecha de préstamo=%s, puntos=%s", 
-					alumno, libro, fechaPrestamo.format(FORMATO_FECHA), getPuntos());
+					alumno, libro, fechaPrestamo.format(Prestamo.FORMATO_FECHA), getPuntos());
 		} else {
 			return String.format("alumno=(%s), libro=(%s), fecha de préstamo=%s, fecha de devolución=%s, puntos=%s", 
-					alumno, libro, fechaPrestamo.format(FORMATO_FECHA), fechaDevolucion.format(FORMATO_FECHA), getPuntos());
+					alumno, libro, fechaPrestamo.format(Prestamo.FORMATO_FECHA), fechaDevolucion.format(Prestamo.FORMATO_FECHA), getPuntos());
 		}
 	}
 

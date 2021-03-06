@@ -6,6 +6,7 @@ public class LibroEscrito extends Libro {
 	
 	private static final int PAGINAS_PARA_RECOMPENSA = 25;
 	private static final float PUNTOS_PREMIO = 0.5f;
+	
 	private int numPaginas;
 	
 	
@@ -28,7 +29,7 @@ public class LibroEscrito extends Libro {
 	 */
 	public LibroEscrito (LibroEscrito copiaLibro) throws NullPointerException, IllegalArgumentException {
 		super(copiaLibro);
-		setNumPaginas(copiaLibro.getNumPaginas());
+		numPaginas = copiaLibro.getNumPaginas();
 	}
 	
 	
@@ -58,7 +59,7 @@ public class LibroEscrito extends Libro {
 	 * @return puntos
 	 */
 	public float getPuntos() {
-		return (numPaginas / PAGINAS_PARA_RECOMPENSA + 1) * PUNTOS_PREMIO;
+		return ((numPaginas / PAGINAS_PARA_RECOMPENSA) + 1) * PUNTOS_PREMIO;
 	}
 	
 	
@@ -88,7 +89,7 @@ public class LibroEscrito extends Libro {
 	 */
 	@Override
 	public String toString() {
-		return String.format("título=%s, autor=%s, número de páginas=%s", titulo, autor, numPaginas);
+		return String.format("%s, número de páginas=%s", super.toString(), numPaginas);
 	}
 
 }

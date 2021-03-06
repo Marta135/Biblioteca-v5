@@ -1,12 +1,17 @@
 package org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio;
 
-public class Alumno {
+import java.io.Serializable;
+import java.util.Objects;
+
+
+public class Alumno implements Serializable {
 
 	
 	/*********ATRIBUTOS*********/
 	
 	private static final String ER_NOMBRE = "[a-zA-ZÁáÉéÍíÓóÚúÑñ]+[\\s]+[a-zA-ZÁáÉéÍíÓóÚúÑñ\\s]*";
 	private static final String ER_CORREO = ".+@[a-zA-Z]+\\.[a-zA-Z]+";
+	
 	private String nombre;
 	private String correo;
 	private Curso curso;
@@ -81,20 +86,14 @@ public class Alumno {
 	 * @return nombreFormateado
 	 */
 	private String formateaNombre(String nombre) {
-		
-		String nombreFormateado = nombre.toLowerCase();
-		
-		char[] caracteres = nombreFormateado.toCharArray();
-		caracteres[0] = Character.toUpperCase(caracteres[0]);
-		
-		for (int i = 0; i < caracteres.length; i++) {
-			if (caracteres[i] == ' ' || caracteres[i] == '.' || caracteres[i] == ',') {
-				caracteres[i + 1] = Character.toUpperCase(caracteres[i + 1]);
-			}
+		String[] palabras = nombre.trim().split("\\s+");
+		StringBuilder nombreFormateado = new StringBuilder();
+		for (String palabra : palabras) {
+			nombreFormateado.append(palabra.substring(0, 1).toUpperCase())
+			.append(palabra.substring(1).toLowerCase())
+			.append(" ");
 		}
-		nombreFormateado = new String(caracteres);
-		
-		return nombreFormateado.replaceAll(" +", " ").trim();
+		return nombreFormateado.toString().trim();
 	}
 	
 	
@@ -126,15 +125,12 @@ public class Alumno {
 	 * @return iniciales
 	 */
 	private String getIniciales() {
-		
-		String iniciales = "";
-		String nombreFormateado = formateaNombre(nombre);
-		
-		String[] letras = nombreFormateado.split(" ");
-		for (int i = 0; i < letras.length; i++) {
-			iniciales += letras[i].substring(0, 1);
+		String[] palabras = nombre.trim().split("\\s+");
+		StringBuilder iniciales = new StringBuilder("");
+		for (String palabra : palabras) {
+			iniciales.append(palabra.charAt(0));
 		}
-		return iniciales;
+		return iniciales.toString().toUpperCase();
 	}
 	
 	
@@ -164,10 +160,7 @@ public class Alumno {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((correo == null) ? 0 : correo.hashCode());
-		return result;
+		return Objects.hash(correo);
 	}
 
 	/**
@@ -176,19 +169,14 @@ public class Alumno {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (!(obj instanceof Alumno)) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		Alumno other = (Alumno) obj;
-		if (correo == null) {
-			if (other.correo != null)
-				return false;
-		} else if (!correo.equals(other.correo))
-			return false;
-		return true;
+		return Objects.equals(correo, other.correo);
 	}
 	
 	/**
@@ -197,8 +185,7 @@ public class Alumno {
 	 */
 	@Override
 	public String toString() {
-		return String.format("nombre=%s (%s), correo=%s, curso=%s", 
-				formateaNombre(nombre), getIniciales(), correo, curso);
+		return String.format("nombre=%s (%s), correo=%s, curso=%s", nombre, getIniciales(), correo, curso);
 	}
 
 	

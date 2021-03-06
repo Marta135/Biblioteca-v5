@@ -1,6 +1,9 @@
 package org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio;
 
-public abstract class Libro {
+import java.io.Serializable;
+import java.util.Objects;
+
+public abstract class Libro implements Serializable {
 
 	/*********ATRIBUTOS*********/
 	
@@ -25,12 +28,12 @@ public abstract class Libro {
 	 * Constructor copia. 
 	 * @param copiaLibro: Copia del objeto Libro.
 	 */
-	public Libro (Libro copiaLibro) throws NullPointerException, IllegalArgumentException {
+	public Libro (Libro copiaLibro) {
 		if (copiaLibro == null) {
 			throw new NullPointerException("ERROR: No es posible copiar un libro nulo.");
 		}
-		setTitulo(copiaLibro.getTitulo());
-		setAutor(copiaLibro.getAutor());
+		titulo = copiaLibro.getTitulo();
+		autor = copiaLibro.getAutor();
 	}
 	
 	/**
@@ -40,7 +43,13 @@ public abstract class Libro {
 	 * @return título, autor y número de páginas. 
 	 */
 	public static Libro getLibroFicticio(String titulo, String autor) throws NullPointerException, IllegalArgumentException {
-		return new LibroEscrito(titulo, autor, 100);
+		if (titulo == null) {
+			throw new NullPointerException("ERROR: El título no puede ser nulo.");
+		}
+		if (autor == null) {
+			throw new NullPointerException("ERROR: El autor no puede ser nulo.");
+		}
+		return new LibroEscrito(titulo, autor, 10);
 	}
 	
 	/**
@@ -68,7 +77,7 @@ public abstract class Libro {
 		if(titulo == null) {
 			throw new NullPointerException("ERROR: El título no puede ser nulo.");
 		}
-		if (titulo.trim().equals("")) {
+		if (titulo.trim().isEmpty()) {
 			throw new IllegalArgumentException("ERROR: El título no puede estar vacío.");
 		}
 		this.titulo = titulo;
@@ -90,7 +99,7 @@ public abstract class Libro {
 		if(autor == null) {
 			throw new NullPointerException("ERROR: El autor no puede ser nulo.");
 		}
-		if (autor.trim().equals("")) {
+		if (autor.trim().isEmpty()) {
 			throw new IllegalArgumentException("ERROR: El autor no puede estar vacío.");
 		}
 		this.autor = autor;
@@ -105,11 +114,7 @@ public abstract class Libro {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((autor == null) ? 0 : autor.hashCode());
-		result = prime * result + ((titulo == null) ? 0 : titulo.hashCode());
-		return result;
+		return Objects.hash(autor, titulo);
 	}
 
 	/**
@@ -118,24 +123,14 @@ public abstract class Libro {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (!(obj instanceof Libro)) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		Libro other = (Libro) obj;
-		if (autor == null) {
-			if (other.autor != null)
-				return false;
-		} else if (!autor.equals(other.autor))
-			return false;
-		if (titulo == null) {
-			if (other.titulo != null)
-				return false;
-		} else if (!titulo.equals(other.titulo))
-			return false;
-		return true;
+		return Objects.equals(autor, other.autor) && Objects.equals(titulo, other.titulo);
 	}
 
 	/**

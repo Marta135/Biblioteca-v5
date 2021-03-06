@@ -6,6 +6,7 @@ public class AudioLibro extends Libro {
 	
 	private static final int MINUTOS_PARA_RECOMPENSA = 15;
 	private static final float PUNTOS_PREMIO = 0.25f;
+	
 	private int duracion;
 	
 	
@@ -32,7 +33,7 @@ public class AudioLibro extends Libro {
 	 */
 	public AudioLibro (AudioLibro copiaLibro) throws NullPointerException, IllegalArgumentException {
 		super(copiaLibro);
-		setDuracion(copiaLibro.getDuracion());
+		duracion = copiaLibro.getDuracion();
 	}
 
 	
@@ -62,7 +63,7 @@ public class AudioLibro extends Libro {
 	 * @return puntos
 	 */
 	public float getPuntos() {
-		return (duracion / MINUTOS_PARA_RECOMPENSA + 1) * PUNTOS_PREMIO;
+		return ((duracion / MINUTOS_PARA_RECOMPENSA) + 1) * PUNTOS_PREMIO;
 	}
 	
 
@@ -91,7 +92,7 @@ public class AudioLibro extends Libro {
 	 */
 	@Override
 	public String toString() {
-		return String.format("título=%s, autor=%s, duración=%s", titulo, autor, duracion);
+		return String.format("%s, duración=%s", super.toString(), duracion);
 	}
 
 }
