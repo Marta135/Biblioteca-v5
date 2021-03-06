@@ -45,16 +45,20 @@ public class Controlador  implements IControlador{
 	/********OTROS MÉTODOS********/
 	
 	/**
-	 * Método que llama a otro de la clase Vista para ejecutar la aplicación. 
+	 * Método que llama a otros para comenzar la aplicación y se lean los 
+	 * distintos ficheros. 
 	 */
 	public void comenzar() {
+		modelo.comenzar();
 		vista.comenzar();
 	}
 	
 	/**
-	 * Método que llama a otro de la clase Vista para terminar la aplicación. 
+	 * Método que llama a otros para terminar la aplicación y se escriban los
+	 * distintos ficheros. 
 	 */
 	public void terminar() {
+		modelo.terminar();
 		System.out.println("¡Hasta pronto!");
 	}
 	
