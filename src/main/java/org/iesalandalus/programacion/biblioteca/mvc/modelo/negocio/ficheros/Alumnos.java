@@ -32,10 +32,17 @@ public class Alumnos implements IAlumnos {
 		coleccionAlumnos = new ArrayList<>();
 	}
 
+	
+	/**
+	 * Método que llama al método leer.
+	 */
 	public void comenzar() {
 		leer();
 	}
 	
+	/**
+	 * Método que premite leer el fichero de alumnos.
+	 */
 	private void leer() {
 		File ficheroAlumnos = new File(NOMBRE_FICHERO_ALUMNOS);
 		try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(ficheroAlumnos))) {
@@ -57,10 +64,16 @@ public class Alumnos implements IAlumnos {
 		}
 	}
 	
+	/**
+	 * Método que llama al método escribir.
+	 */
 	public void terminar() {
 		escribir();
 	}
 	
+	/**
+	 * Método que permite escribir en el fichero de alumnos.
+	 */
 	private void escribir() {
 		File ficheroAlumnos = new File(NOMBRE_FICHERO_ALUMNOS);
 		try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(ficheroAlumnos))) {
