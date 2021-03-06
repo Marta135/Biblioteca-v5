@@ -37,6 +37,23 @@ public class Modelo implements IModelo{
 	
 
 	/********OTROS MÉTODOS********/
+	/**
+	 * Método que premite leer los distintos ficheros.
+	 */ 
+	public void comenzar() {
+		alumnos.comenzar();
+		libros.comenzar();
+		prestamos.comenzar();
+	}
+	
+	/**
+	 * Método que permite escribir en los distintos ficheros.
+	 */
+	public void terminar() {
+		alumnos.terminar();
+		libros.terminar();
+		prestamos.terminar();
+	}
 	
 	/**
 	 * Método que permite insertar un alumno.
@@ -83,7 +100,8 @@ public class Modelo implements IModelo{
 	 * @throws OperationNotSupportedException
 	 */
 	public void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException {
-		if (prestamos.buscar(prestamo) == null) {
+		prestamo = prestamos.buscar(prestamo);
+		if (prestamo == null) {
 			throw new OperationNotSupportedException("ERROR: No se puede devolver un préstamo no prestado.");
 		}
 		prestamos.devolver(prestamo, fechaDevolucion);
