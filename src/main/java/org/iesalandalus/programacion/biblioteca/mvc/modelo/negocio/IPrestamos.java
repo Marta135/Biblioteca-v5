@@ -13,6 +13,10 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
 
 public interface IPrestamos {
 
+	void comenzar();
+	
+	void terminar();
+	
 	List<Prestamo> get() throws NullPointerException, IllegalArgumentException;
 	
 	int getTamano();
