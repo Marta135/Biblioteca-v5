@@ -4,14 +4,12 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.ficheros.Fact
 
 public enum FactoriaFuenteDatos {
 
-	MEMORIA {
+	FICHEROS {
+		@Override
 		public IFuenteDatos crear() {
 			return new FactoriaFuenteDatosFicheros();
 		}
 	};
-	
-	FactoriaFuenteDatos() {
-	}
 	
 	public abstract IFuenteDatos crear();
 }
