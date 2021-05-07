@@ -50,6 +50,7 @@ public class VistaTexto implements IVista {
 			opcion = Consola.elegirOpcion();
 			Opcion opcionElegida = Opcion.getOpcionSegunOrdinal(opcion);
 			opcionElegida.ejecutar();
+			System.out.println("\n");
 		} while (opcion != Opcion.SALIR.ordinal());
 	}
 	

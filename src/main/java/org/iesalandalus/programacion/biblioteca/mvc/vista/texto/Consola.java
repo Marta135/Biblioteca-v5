@@ -48,6 +48,7 @@ public class Consola {
 		do {
 			System.out.print("\nElige una opción: ");
 			opcion = Entrada.entero();
+			System.out.println();
 			if (!Opcion.esOrdinalValido(opcion)) {
 				System.out.println("La opción escogida no es válida. Elige una opción: ");
 			}
