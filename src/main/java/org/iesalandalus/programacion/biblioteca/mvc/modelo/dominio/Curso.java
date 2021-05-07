@@ -1,5 +1,12 @@
 package org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio;
 
+/**
+ * 
+ * @author Marta García
+ * versión: v3
+ *
+ */
+
 public enum Curso {
 
 	PRIMERO("1º ESO"), 
@@ -7,23 +14,12 @@ public enum Curso {
 	TERCERO("3º ESO"), 
 	CUARTO("4º ESO");
 	
-	/**
-	 * Atributo:
-	 */
 	private final String cadenaAMostrar;
 	
-	/**
-	 * Constructor:
-	 * @param cadenaAMostrar: Texto a mostrar.
-	 */
 	private Curso (String cadenaAMostrar) {
 		this.cadenaAMostrar = cadenaAMostrar;
 	}
 	
-	/**
-	 * Método toString:
-	 * Devolverá el valor almacenado en la variable cadenaAMostrar. 
-	 */
 	@Override
 	public String toString() {
 		return cadenaAMostrar;

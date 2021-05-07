@@ -11,6 +11,13 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
 
+/**
+ * 
+ * @author Marta García
+ * versión: v3
+ *
+ */
+
 public interface IPrestamos {
 
 	void comenzar();
@@ -29,9 +36,11 @@ public interface IPrestamos {
 	
 	Map<Curso, Integer> getEstadisticaMensualPorCurso(LocalDate fecha);
 	
-	void prestar(Prestamo prestamo) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException;
+	void prestar(Prestamo prestamo) 
+			throws OperationNotSupportedException, NullPointerException, IllegalArgumentException;
 	
-	void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException;
+	void devolver(Prestamo prestamo, LocalDate fechaDevolucion) 
+			throws OperationNotSupportedException, NullPointerException, IllegalArgumentException;
 	
 	Prestamo buscar(Prestamo prestamo) throws NullPointerException, IllegalArgumentException;
 	

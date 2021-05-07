@@ -12,8 +12,16 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
 import org.iesalandalus.programacion.biblioteca.mvc.vista.IVista;
 
+/**
+ * 
+ * @author Marta García
+ * versión: 3v
+ *
+ */
+
 public class VistaTexto implements IVista {
 
+	
 	/*********ATRIBUTO*********/
 	
 	private IControlador controlador;
@@ -21,17 +29,11 @@ public class VistaTexto implements IVista {
 	
 	/********OTROS MÉTODOS********/
 	
-	/**
-	 * Constructor para instanciar objetos de esta clase.
-	 */
-	public VistaTexto() throws NullPointerException {
+	public VistaTexto() {
 		Opcion.setVista(this);
 	}
 	
-	/**
-	 * Método set que asigna valor al atributo.
-	 * @param controlador
-	 */
+	@Override
 	public void setControlador(IControlador controlador) {
 		if (controlador == null) {
 			throw new NullPointerException("ERROR: El controlador no puede ser nulo.");
@@ -39,9 +41,7 @@ public class VistaTexto implements IVista {
 		this.controlador = controlador;
 	}
 	
-	/**
-	 * Método para inicializar la aplicación.
-	 */
+	@Override
 	public void comenzar() {
 		Consola.mostrarCabecera("GESTIÓN DE PRÉSTAMOS DE LA BIBLIOTECA <<IES AL-ÁNDALUS>>");
 		int opcion;
@@ -53,16 +53,11 @@ public class VistaTexto implements IVista {
 		} while (opcion != Opcion.SALIR.ordinal());
 	}
 	
-	/**
-	 * Método para finalizar la aplicación.
-	 */
+	@Override
 	public void terminar() {
 		controlador.terminar();
 	}
 	
-	/**
-	 * Método que llama a otro para insertar un alumno.
-	 */
 	public void insertarAlumno() {
 		Consola.mostrarCabecera("INSERTAR ALUMNO");
 		try {
@@ -73,9 +68,6 @@ public class VistaTexto implements IVista {
 		}
 	}
 	
-	/**
-	 * Método que llama a otro para buscar a un alumno.
-	 */
 	public void buscarAlumno() {
 		Consola.mostrarCabecera("BUSCAR ALUMNO");
 		try {
@@ -87,9 +79,6 @@ public class VistaTexto implements IVista {
 		}
 	}
 	
-	/**
-	 * Método que llama a otro para borrar a un alumno.
-	 */
 	public void borrarAlumno() {
 		Consola.mostrarCabecera("BORRAR ALUMNO");
 		try {
@@ -100,9 +89,6 @@ public class VistaTexto implements IVista {
 		}
 	}	
 	
-	/**
-	 * Método que llama a otro para listar todos los alumnos.
-	 */
 	public void listarAlumnos() {
 		Consola.mostrarCabecera("LISTADO DE ALUMNOS");
 		List<Alumno> alumnos = controlador.getAlumnos();
@@ -118,9 +104,6 @@ public class VistaTexto implements IVista {
 		
 	}
 	
-	/**
-	 * Método que llama a otro para insertar un libro.
-	 */
 	public void insertarLibro() {
 		Consola.mostrarCabecera("INSERTAR LIBRO");
 		try {
@@ -131,9 +114,6 @@ public class VistaTexto implements IVista {
 		}
 	}
 	
-	/**
-	 * Método que llama a otro para buscar un libro.
-	 */
 	public void buscarLibro() {
 		Consola.mostrarCabecera("BUSCAR LIBRO");
 		try {
@@ -145,9 +125,6 @@ public class VistaTexto implements IVista {
 		}
 	}
 
-	/**
-	 * Método que llama a otro para borrar un libro.
-	 */
 	public void borrarLibro() {
 		Consola.mostrarCabecera("BORRAR LIBRO");
 		try {
@@ -159,9 +136,6 @@ public class VistaTexto implements IVista {
 		
 	}
 	
-	/**
-	 * Método que llama a otro para listar todos los libros.
-	 */
 	public void listarLibros() {
 		Consola.mostrarCabecera("LISTADO DE LIBROS");
 		List<Libro> libros = controlador.getLibros();
@@ -177,9 +151,6 @@ public class VistaTexto implements IVista {
 		
 	}
 	
-	/**
-	 * Método que llama a otro para prestar un libro.
-	 */
 	public void prestarLibro() {
 		Consola.mostrarCabecera("PRÉSTAMO DE LIBRO");
 		try {
@@ -191,22 +162,16 @@ public class VistaTexto implements IVista {
 		}
 	}
 	
-	/**
-	 * Método que llama a otro para devolver un libro.
-	 */
 	public void devolverLibro() {
 		Consola.mostrarCabecera("DEVOLUCIÓN DE LIBRO");
 		try {
-			controlador.devolver(Consola.leerPrestamo(), Consola.leerFecha());
+			controlador.devolver(Consola.leerPrestamo(), Consola.leerFecha("Introduce la fecha de devolución"));
 			System.out.println("Libro devuelto correctamente.");
 		} catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
-	/**
-	 * Método que llama a otro para buscar un préstamo.
-	 */
 	public void buscarPrestamo() {
 		Consola.mostrarCabecera("BUSCAR PRÉSTAMO");
 		try {
@@ -218,9 +183,6 @@ public class VistaTexto implements IVista {
 		}
 	}
 	
-	/**
-	 * Método que llama a otro para borrar un préstamo.
-	 */
 	public void borrarPrestamo() {
 		Consola.mostrarCabecera("BORRAR PRÉSTAMO");
 		try {
@@ -231,9 +193,6 @@ public class VistaTexto implements IVista {
 		}
 	}
 	
-	/**
-	 * Método que llama a otro para listar todos los préstamos.
-	 */
 	public void listarPrestamos() {
 		Consola.mostrarCabecera("LISTADO DE PRÉSTAMOS");
 		List<Prestamo> prestamos = controlador.getPrestamos();
@@ -248,9 +207,6 @@ public class VistaTexto implements IVista {
 		}
 	}
 	
-	/**
-	 * Método que llama a otro para listar los préstamos de un alumno.
-	 */
 	public void listarPrestamosAlumno() {
 		Consola.mostrarCabecera("LISTADO DE PRÉSTAMOS POR ALUMNO");
 		try {
@@ -264,15 +220,12 @@ public class VistaTexto implements IVista {
 			} else {
 				System.out.println("No hay préstamos de dicho alumno.");
 			}
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException | NullPointerException e) {
 			System.out.println(e.getMessage());
 		}
 		
 	}
 
-	/**
-	 * Método que llama a otro para listar los préstamos de un libro.
-	 */
 	public void listarPrestamosLibro() {
 		Consola.mostrarCabecera("LISTADO DE PRÉSTAMOS POR LIBRO");
 		try {
@@ -286,19 +239,16 @@ public class VistaTexto implements IVista {
 			} else {
 				System.out.println("No hay préstamos de dicho libro.");
 			}
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException| NullPointerException e) {
 			System.out.println(e.getMessage());
 		}
 		
 	}
 	
-	/**
-	 * Método que llama a otro para listar los préstamos por fecha.
-	 */
 	public void listarPrestamosFecha() {
 		Consola.mostrarCabecera("LISTADO DE PRÉSTAMOS POR FECHA");
 		try {
-			List<Prestamo> prestamos = controlador.getPrestamos(Consola.leerFecha());
+			List<Prestamo> prestamos = controlador.getPrestamos(Consola.leerFecha("Introduce la fecha del préstamo"));
 			if (!prestamos.isEmpty()) {
 				for (Prestamo prestamo : prestamos) {
 					if (prestamo != null) {
@@ -306,25 +256,25 @@ public class VistaTexto implements IVista {
 					}
 				}
 			} else {
-				System.out.println("No hay préstamos de dicha fecha.");
+				System.out.println("No hay préstamos para dicha fecha.");
 			}
-		} catch (NullPointerException e) {
+		} catch (NullPointerException | IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 		}
 		
 	}
 	
-	/**
-	 * Método que llama a otro para mostrar la estadística mensual por curso.
-	 */
 	public void mostrarEstadisticaMensualPorCurso() {
 		Consola.mostrarCabecera("ESTADÍSTICA MENSUAL POR CURSO");
 		try {
-			Map<Curso, Integer> estadisticasMensualPorCurso = controlador.getEstadisticaMensualPorCurso(Consola.leerFecha());
-			for (Map.Entry<Curso, Integer> entrada : estadisticasMensualPorCurso.entrySet()) {
-				System.out.printf("%s -> %d puntos.%n", entrada.getKey(), entrada.getValue());
+			Map<Curso, Integer> estadisticasMensuales = controlador.getEstadisticaMensualPorCurso
+					(Consola.leerFecha("Introduce la fecha para mostrar las estadísticas mensuales"));
+			if (!estadisticasMensuales.isEmpty()) {
+				System.err.println(estadisticasMensuales);
+			} else {
+				System.out.println("No existen estadísticas para la fecha seleccionada.");
 			}
-		} catch (NullPointerException e) {
+		} catch (NullPointerException | IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 		}
 	}

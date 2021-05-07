@@ -6,6 +6,13 @@ import javax.naming.OperationNotSupportedException;
 
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 
+/**
+ * 
+ * @author Marta García
+ * version: 3v
+ *
+ */
+
 public interface ILibros {
 
 	void comenzar();
@@ -18,7 +25,7 @@ public interface ILibros {
 	
 	void insertar(Libro libro) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException;
 	
-	Libro buscar(Libro libro);
+	Libro buscar(Libro libro) throws NullPointerException, IllegalArgumentException;
 	
 	void borrar(Libro libro) throws OperationNotSupportedException;
 }

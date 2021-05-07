@@ -13,6 +13,13 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
 import org.iesalandalus.programacion.biblioteca.mvc.vista.IVista;
 
+/**
+ * 
+ * @author Marta García
+ * Versión: v3
+ *
+ */
+
 public class Controlador  implements IControlador{
 
 	/*********ATRIBUTOS*********/
@@ -23,11 +30,6 @@ public class Controlador  implements IControlador{
 	
 	/*******CONSTRUCTOR*******/
 	
-	/**
-	 * Constructor con parámetros.
-	 * @param modelo
-	 * @param vista
-	 */
 	public Controlador(IModelo modelo, IVista vista) {
 		if (modelo == null) {
 			throw new IllegalArgumentException("ERROR: El modelo no puede ser nulo.");
@@ -42,173 +44,102 @@ public class Controlador  implements IControlador{
 	}
 	
 	
-	/********OTROS MÉTODOS********/
+	/********MÉTODOS********/
 	
-	/**
-	 * Método que llama a otros para comenzar la aplicación y se lean los 
-	 * distintos ficheros. 
-	 */
+	@Override
 	public void comenzar() {
 		modelo.comenzar();
 		vista.comenzar();
 	}
 	
-	/**
-	 * Método que llama a otros para terminar la aplicación y se escriban los
-	 * distintos ficheros. 
-	 */
+	@Override
 	public void terminar() {
 		modelo.terminar();
 		System.out.println("¡Hasta pronto!");
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para insertar un alumno. 
-	 * @param alumno
-	 * @throws OperationNotSupportedException
-	 */
+	@Override
 	public void insertar(Alumno alumno) throws OperationNotSupportedException {
 		modelo.insertar(alumno);
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para insertar un libro. 
-	 * @param libro
-	 * @throws OperationNotSupportedException
-	 */
+	@Override
 	public void insertar(Libro libro) throws OperationNotSupportedException {
 		modelo.insertar(libro);
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para realizar un préstamo. 
-	 * @param prestamo
-	 * @throws OperationNotSupportedException
-	 */
+	@Override
 	public void prestar(Prestamo prestamo) throws OperationNotSupportedException {
 		modelo.prestar(prestamo);
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para realizar una devolución. 
-	 * @param prestamo
-	 * @param fechaDevolucion
-	 * @throws OperationNotSupportedException
-	 */
-	public void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException {
+	//
+	@Override
+	public void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException {
 		modelo.devolver(prestamo, fechaDevolucion);
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para buscar un alumno. 
-	 * @param alumno
-	 * @return alumno
-	 */
+	@Override
 	public Alumno buscar(Alumno alumno) {
 		return modelo.buscar(alumno);
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para buscar un libro. 
-	 * @param libro
-	 * @return libro
-	 */
+	@Override
 	public Libro buscar(Libro libro) {
 		return modelo.buscar(libro);
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para buscar un préstamo. 
-	 * @param prestamo
-	 * @return prestamo
-	 */
+	@Override
 	public Prestamo buscar(Prestamo prestamo) {
 		return modelo.buscar(prestamo);
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para borrar un alumno. 
-	 * @param alumno
-	 * @throws OperationNotSupportedException
-	 */
+	@Override
 	public void borrar(Alumno alumno) throws OperationNotSupportedException {
 		modelo.borrar(alumno);
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para borrar un libro. 
-	 * @param libro
-	 * @throws OperationNotSupportedException
-	 */
+	@Override
 	public void borrar(Libro libro) throws OperationNotSupportedException {
 		modelo.borrar(libro);
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para borrar un préstamo. 
-	 * @param prestamo
-	 * @throws OperationNotSupportedException
-	 */
+	@Override
 	public void borrar(Prestamo prestamo) throws OperationNotSupportedException {
 		modelo.borrar(prestamo);
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para mostrar los alumnos. 
-	 * @return alumnos
-	 */
+	@Override
 	public List<Alumno> getAlumnos() {
 		return modelo.getAlumnos();
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para mostrar los libros. 
-	 * @return libros
-	 */
+	@Override
 	public List<Libro> getLibros() {
 		return modelo.getLibros();
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para mostrar los préstamos. 
-	 * @return prestamos
-	 */
+	@Override
 	public List<Prestamo> getPrestamos() {
 		return modelo.getPrestamos();
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para mostrar los préstamos de un alumno. 
-	 * @param alumno
-	 * @return prestamos
-	 */
+	@Override
 	public List<Prestamo> getPrestamos(Alumno alumno) {
 		return modelo.getPrestamos(alumno);
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para mostrar los préstamos de un libro. 
-	 * @param libro
-	 * @return prestamos
-	 */
+	@Override
 	public List<Prestamo> getPrestamos(Libro libro) {
 		return modelo.getPrestamos(libro);
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para mostrar los préstamos por fecha. 
-	 * @param fecha
-	 * @return prestamos
-	 */
+	@Override
 	public List<Prestamo> getPrestamos(LocalDate fechaPrestamo) {
 		return modelo.getPrestamos(fechaPrestamo);
 	}
 	
-	/**
-	 * Método que llama a otro de la clase Modelo para mostrar las estadísticas mensuales.
-	 * @param fecha
-	 * @return getEstadisticaMensualPorCurso
-	 */
+	@Override
 	public Map<Curso, Integer> getEstadisticaMensualPorCurso(LocalDate fecha) {
 		return modelo.getEstadisticaMensualPorCurso(fecha);
 	}

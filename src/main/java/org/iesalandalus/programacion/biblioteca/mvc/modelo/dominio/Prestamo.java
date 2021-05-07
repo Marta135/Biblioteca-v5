@@ -6,13 +6,20 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+/**
+ * 
+ * @author Marta García
+ * versión: 3v
+ *
+ */
+
 public class Prestamo implements Serializable {
 
 	/*********ATRIBUTOS*********/
 	
+	private static final long serialVersionUID = 1L;
 	private static final int MAX_DIAS_PRESTAMO = 20;
 	public static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	
 	private LocalDate fechaPrestamo;
 	private LocalDate fechaDevolucion;
 	private Alumno alumno;
@@ -21,22 +28,12 @@ public class Prestamo implements Serializable {
 	
 	/*******CONSTRUCTORES*******/
 	
-	/**
-	 * Constructor con parámetros:
-	 * @param alumno
-	 * @param libro
-	 * @param fechaPrestamo
-	 */
 	public Prestamo (Alumno alumno, Libro libro, LocalDate fechaPrestamo) throws NullPointerException, IllegalArgumentException {
 		setAlumno(alumno);
 		setLibro(libro);
 		setFechaPrestamo(fechaPrestamo);
 	}
 	
-	/**
-	 * Constructor copia:
-	 * @param copiaPrestamo: copia del objeto Prestamo.
-	 */
 	public Prestamo (Prestamo copiaPrestamo) throws NullPointerException, IllegalArgumentException {
 		if(copiaPrestamo == null) {
 			throw new NullPointerException("ERROR: No es posible copiar un préstamo nulo.");
@@ -44,58 +41,45 @@ public class Prestamo implements Serializable {
 		alumno = copiaPrestamo.getAlumno();
 		libro = copiaPrestamo.getLibro();
 		fechaPrestamo = copiaPrestamo.getFechaPrestamo();
-		fechaDevolucion = copiaPrestamo.getFechaDevolucion();
+		if (copiaPrestamo.getFechaDevolucion() != null) {
+			fechaDevolucion = copiaPrestamo.getFechaDevolucion();
+		}
 	}
 	
-	/**
-	 * Método que devolverá un préstamo ficticio para usarlo en búsquedas y borrados.
-	 * @param alumno
-	 * @param libro
-	 * @return correo, titulo, autor y fechaPrestamo.
-	 */
+	
+	/**********MÉTODOS************/
+	
 	public static Prestamo getPrestamoFicticio (Alumno alumno, Libro libro) throws NullPointerException, IllegalArgumentException {
 		return new Prestamo(alumno, libro, LocalDate.now());
 	}
 	
-	/**
-	 * Método para devolver un libro.
-	 * @param fechaDevolucion
-	 */
 	public void devolver (LocalDate fechaDevolucion) throws NullPointerException, IllegalArgumentException {
-		if (this.fechaDevolucion != null) {
+		if (getFechaDevolucion()!=null && getFechaDevolucion().equals(fechaDevolucion)) {
 			throw new IllegalArgumentException("ERROR: La devolución ya estaba registrada.");
 		}
 		setFechaDevolucion(fechaDevolucion);
 	}
-	
 	
 	public int getPuntos() {
 		if(getFechaDevolucion() == null) {
 			return 0;
 		} else {
 			long diasIntermedios = ChronoUnit.DAYS.between(getFechaPrestamo(), getFechaDevolucion());
-			if (diasIntermedios <= MAX_DIAS_PRESTAMO && diasIntermedios > 0) {
-				return Math.round(libro.getPuntos()/diasIntermedios);
-			} else {
+			if (diasIntermedios > MAX_DIAS_PRESTAMO) {
 				return 0;
+			} else {
+				return Math.round(libro.getPuntos()/diasIntermedios);
 			}
 		}
 	}
 	
+	
 	/*********GETTERS Y SETTERS**********/
 	
-	/**
-	 * Método que devuelve los datos del alumno.
-	 * @return alumno
-	 */
 	public Alumno getAlumno() {
 		return alumno;
 	}
 	
-	/**
-	 * Método que modifica los datos del alumno.
-	 * @param alumno
-	 */
 	private void setAlumno(Alumno alumno) throws NullPointerException, IllegalArgumentException {
 		if (alumno == null) {
 			throw new NullPointerException("ERROR: El alumno no puede ser nulo.");
@@ -103,24 +87,16 @@ public class Prestamo implements Serializable {
 		this.alumno = new Alumno(alumno);
 	}
 	
-	/**
-	 * Método que devuelve los datos del libro.
-	 * @return libro
-	 */
 	public Libro getLibro() {
 		Libro libro = null;
 		if (this.libro instanceof LibroEscrito) {
-			libro = new LibroEscrito((LibroEscrito)this.libro);
+			libro = new LibroEscrito((LibroEscrito) this.libro);
 		} else if (this.libro instanceof AudioLibro) {
-			libro = new AudioLibro((AudioLibro)this.libro);
+			libro = new AudioLibro((AudioLibro) this.libro);
 		}
 		return libro;
 	}
 	
-	/**
-	 * Método que modifica los datos del libro.
-	 * @param libro
-	 */
 	private void setLibro(Libro libro) throws NullPointerException, IllegalArgumentException {
 		if (libro == null) {
 			throw new NullPointerException("ERROR: El libro no puede ser nulo.");
@@ -132,18 +108,10 @@ public class Prestamo implements Serializable {
 		}
 	}
 	
-	/**
-	 * Método que devuelve la fecha de préstamo del libro.
-	 * @return fechaPrestamo
-	 */
 	public LocalDate getFechaPrestamo() {
 		return fechaPrestamo;
 	}
 	
-	/**
-	 *  Método que modifica la fecha de préstamo del libro.
-	 * @param fechaPrestamo
-	 */
 	private void setFechaPrestamo(LocalDate fechaPrestamo) {
 		if(fechaPrestamo == null) {
 			throw new NullPointerException("ERROR: La fecha de préstamo no puede ser nula.");
@@ -154,18 +122,10 @@ public class Prestamo implements Serializable {
 		this.fechaPrestamo = fechaPrestamo;
 	}
 	
-	/**
-	 * Método que devuelve la fecha de devolución del libro.
-	 * @return
-	 */
 	public LocalDate getFechaDevolucion() {
 		return fechaDevolucion;
 	}
 	
-	/**
-	 * Método que modifica la fecha de préstamo del libro.
-	 * @param fechaDevolucion
-	 */
 	private void setFechaDevolucion(LocalDate fechaDevolucion) {
 		if(fechaDevolucion == null) {
 			throw new NullPointerException("ERROR: La fecha de devolución no puede ser nula.");
@@ -173,7 +133,7 @@ public class Prestamo implements Serializable {
 		if (fechaDevolucion.isAfter(LocalDate.now())) {
 			throw new IllegalArgumentException("ERROR: La fecha de devolución no puede ser futura.");
 		}
-		if(fechaDevolucion.isBefore(fechaPrestamo) || fechaDevolucion.isEqual(fechaPrestamo)) {
+		if(fechaDevolucion.isBefore(getFechaPrestamo()) || fechaDevolucion.isEqual(getFechaPrestamo())) {
 			throw new IllegalArgumentException("ERROR: La fecha de devolución debe ser posterior a la fecha de préstamo.");
 		}
 		this.fechaDevolucion = fechaDevolucion;
@@ -182,18 +142,11 @@ public class Prestamo implements Serializable {
 
 	/********OTROS MÉTODOS********/
 	
-	/**
-	 * Método hashCode.
-	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(alumno, libro);
 	}
 
-	/**
-	 * Método para comparar dos préstamos.
-	 * Dos préstamos son iguales si alumno y libro son iguales.
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -206,10 +159,6 @@ public class Prestamo implements Serializable {
 		return Objects.equals(alumno, other.alumno) && Objects.equals(libro, other.libro);
 	}
 
-	/**
-	 * Método que muestra la información del préstamo:
-	 * 
-	 */
 	@Override
 	public String toString() {
 		if(fechaDevolucion == null) {

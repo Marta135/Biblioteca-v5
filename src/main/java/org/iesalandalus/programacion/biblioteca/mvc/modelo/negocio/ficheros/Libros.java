@@ -19,34 +19,33 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.LibroEscrito;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.ILibros;
 
+/**
+ * 
+ * @author Marta García
+ * versión: 3v
+ *
+ */
+
 public class Libros implements ILibros{
 
+	
 	/*********ATRIBUTOS*********/
 	
-	private static final String NOMBRE_FICHERO_LIBROS = "datos" + File.separator + "libros.dat";
+	private static final String NOMBRE_FICHERO_LIBROS = "datos/libros.dat";
 	private List<Libro> coleccionLibros;
 	
 	
 	/*******CONSTRUCTORES*******/
 	
-	/**
-	 * Constructor sin parámetros.
-	 */
 	public Libros() throws NullPointerException, IllegalArgumentException {
 		coleccionLibros = new ArrayList<>();
 	}
 	
-	
-	/**
-	 * Método que llama al método leer.
-	 */
+	@Override
 	public void comenzar() {
 		leer();
 	}
 	
-	/**
-	 * Método que premite leer el fichero de alumnos.
-	 */
 	private void leer() {
 		File ficheroLibros = new File(NOMBRE_FICHERO_LIBROS);
 		try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(ficheroLibros))) {
@@ -58,7 +57,7 @@ public class Libros implements ILibros{
 		} catch (ClassNotFoundException e) {
 			System.out.println("No se ha podido encontrar la clase a leer.");
 		} catch (FileNotFoundException e) {
-			System.out.println("No se ha podido abrir el fichero de libros.");
+			System.out.println("No se ha podido abrir el fichero libros.");
 		} catch (EOFException e) {
 			System.out.println("Fichero libros leido satisfactoriamente.");
 		} catch (IOException e) {
@@ -68,45 +67,31 @@ public class Libros implements ILibros{
 		}
 	}
 	
-	/**
-	 * Método que llama al método escribir.
-	 */
+	@Override
 	public void terminar() {
 		escribir();
 	}
 	
-	/**
-	 * Método que permite escribir en el fichero de alumnos.
-	 */
 	private void escribir() {
 		File ficheroLibros = new File(NOMBRE_FICHERO_LIBROS);
 		try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(ficheroLibros))) {
 			for (Libro libro : coleccionLibros) {
 				salida.writeObject(libro);
-				System.out.println("Fichero libros escrito satisfactoriamente.");
 			}
+			System.out.println("Fichero libros escrito satisfactoriamente.");
 		} catch (FileNotFoundException e) {
-			System.out.println("No se ha podido crear el fichero de libros.");
+			System.out.println("No se ha podido crear el fichero libros.");
 		} catch (IOException e) {
 			System.out.println("Error inesperado de Entrada/Salida");
 		}
 	}
 	
-		
-	/**
-	 * Método que devuelve una copia de la colección.
-	 * @return librosOrdenados
-	 */
 	public List<Libro> get() throws NullPointerException, IllegalArgumentException {
 		List<Libro> librosOrdenados = copiaProfundaLibros();
 		librosOrdenados.sort(Comparator.comparing(Libro::getTitulo).thenComparing(Libro::getAutor));
 		return librosOrdenados;
 	}
 	
-	/**
-	 * Método que devuelve una copia de la colección de libros.
-	 * @return copiaLibros
-	 */
 	private List<Libro> copiaProfundaLibros() throws NullPointerException, IllegalArgumentException {
 		List<Libro> copiaLibros = new ArrayList<>();
 		for (Libro libro : coleccionLibros) {
@@ -120,11 +105,6 @@ public class Libros implements ILibros{
 		return copiaLibros;
 	}
 	
-	
-	/**
-	 * Método que devuelve el tamaño de la colección.
-	 * @return coleccionLibros.size
-	 */
 	public int getTamano() {
 		return coleccionLibros.size();
 	}
@@ -132,11 +112,6 @@ public class Libros implements ILibros{
 
 	/********OTROS MÉTODOS********/
 	
-	/**
-	 * Método para insertar un libro a la colección.
-	 * @param libro
-	 * @throws OperationNotSupportedException
-	 */
 	public void insertar(Libro libro) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException {
 		if (libro == null) {
 			throw new NullPointerException("ERROR: No se puede insertar un libro nulo.");
@@ -145,7 +120,7 @@ public class Libros implements ILibros{
 		if (indice == -1) {
 			if (libro instanceof LibroEscrito) {
 				coleccionLibros.add(new LibroEscrito((LibroEscrito)libro));
-			}  
+			} 
 			if (libro instanceof AudioLibro) {
 				coleccionLibros.add(new AudioLibro((AudioLibro)libro));
 			}
@@ -154,13 +129,7 @@ public class Libros implements ILibros{
 		}
 	}
 	
-	
-	/**
-	 * Método que permite buscar un libro en la colección.
-	 * @param libro
-	 * @return libro
-	 */
-	public Libro buscar(Libro libro) {
+	public Libro buscar(Libro libro) throws IllegalArgumentException, NullPointerException {
 		if (libro == null) {
 			throw new IllegalArgumentException("ERROR: No se puede buscar un libro nulo.");
 		}
@@ -178,11 +147,6 @@ public class Libros implements ILibros{
 		return libro;
 	}
 	
-	/**
-	 * Método para borrar un libro de la colección.
-	 * @param libro
-	 * @throws OperationNotSupportedException
-	 */
 	public void borrar(Libro libro) throws OperationNotSupportedException {
 		if (libro == null) {
 			throw new IllegalArgumentException("ERROR: No se puede borrar un libro nulo.");

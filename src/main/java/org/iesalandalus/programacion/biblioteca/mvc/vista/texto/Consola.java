@@ -2,7 +2,6 @@ package org.iesalandalus.programacion.biblioteca.mvc.vista.texto;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Alumno;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.AudioLibro;
@@ -12,19 +11,20 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.LibroEscrito;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
+/**
+ * 
+ * @author Marta García
+ * versión: v3
+ *
+ */
+
 public class Consola {
 
-	/**
-	 * Constructor.
-	 * Evita que se puedan crear instancias de esta clase.
-	 */
+
 	private Consola() {
 		
 	}
 	
-	/**
-	 * Método que muestra el menú de opciones.
-	 */
 	public static void mostrarMenu() {
 		System.out.println("MENÚ DE OPCIONES");
 		System.out.println("-----------------");
@@ -33,11 +33,8 @@ public class Consola {
 		}
 	}
 	
-	/**
-	 * Método que muestra la cabecera de la aplicación. 
-	 * @param mensaje
-	 */
 	public static void mostrarCabecera(String mensaje) {
+		System.out.println();
 		System.out.println(mensaje);
 		int longitudCadena = mensaje.length();
 		for (int i = 0; i < longitudCadena; i++) {
@@ -46,10 +43,6 @@ public class Consola {
 		System.out.println("\n");
 	}
 	
-	/**
-	 * Método para elegir una de las opciones del menú.
-	 * @return opcion
-	 */
 	public static int elegirOpcion() {
 		int opcion;
 		do {
@@ -62,10 +55,6 @@ public class Consola {
 		return opcion;
 	}
 	
-	/**
-	 * Método para introducir los datos de un alumno.
-	 * @return Alumno
-	 */
 	public static Alumno leerAlumno() {
 		Curso curso = null;
 		
@@ -97,19 +86,11 @@ public class Consola {
 		return new Alumno(nombre, correo, curso); 
 	}
 	
-	/**
-	 * Método para introducir los datos de un alumno ficticio.
-	 * @return alumnoFicticio
-	 */
 	public static Alumno leerAlumnoFicticio() {
 		System.out.print("Introduce el correo del alumno: ");
 		return Alumno.getAlumnoFicticio(Entrada.cadena());
 	}
 	
-	/**
-	 * Método para introducir los datos de un libro.
-	 * @return Libro
-	 */
 	public static Libro leerLibro() {
 		System.out.print("Introduce el título del libro: ");
 		String titulo = Entrada.cadena();
@@ -137,10 +118,6 @@ public class Consola {
 		return libro;
 	}
 	
-	/**
-	 * Método para introducir los datos de un libro ficticio.
-	 * @return libroFicticio
-	 */
 	public static Libro leerLibroFicticio() {
 		System.out.print("Introduce el título del libro: ");
 		String titulo = Entrada.cadena();
@@ -149,34 +126,20 @@ public class Consola {
 		return Libro.getLibroFicticio(titulo, autor);
 	}
 	
-	/**
-	 * Método para introducir los datos de un préstamo.
-	 * @return Prestamo
-	 */
 	public static Prestamo leerPrestamo() {
-		return new Prestamo(leerAlumno(), leerLibro(), leerFecha());
+		return new Prestamo(leerAlumno(), leerLibro(), leerFecha("Introduce la fecha de el préstamo: "));
 	}
 	
-	/**
-	 * Método para introducir los datos de un préstamo ficticio.
-	 * @return prestamoFicticio
-	 */
 	public static Prestamo leerPrestamoFicticio() {
 		return Prestamo.getPrestamoFicticio(leerAlumnoFicticio(), leerLibroFicticio());
 	}
 	
-	/**
-	 * Método para introducir la fecha de un préstamo.
-	 * @return fecha
-	 */
-	public static LocalDate leerFecha() {
+	public static LocalDate leerFecha(String mensaje) {
 		LocalDate fecha = null;
-		String cadenaFormato = "dd/MM/yyyy";
-		DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern(cadenaFormato);
-		System.out.printf("Introduce la fecha del préstamo (%s): ", formatoFecha);
+		System.out.printf("%s (dd/MM/yyyy): ", mensaje);
 		String diaLeido = Entrada.cadena();
 		try {
-			fecha = LocalDate.parse(diaLeido, formatoFecha);
+			fecha = LocalDate.parse(diaLeido, Prestamo.FORMATO_FECHA);
 		} catch (DateTimeException e) {
 			System.out.println("ERROR: El formato de la fecha no es correcto.");
 		}

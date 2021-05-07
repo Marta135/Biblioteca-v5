@@ -17,32 +17,33 @@ import javax.naming.OperationNotSupportedException;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Alumno;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.IAlumnos;
 
+/**
+ * 
+ * @author Marta García
+ * versión: 3v
+ *
+ */
+
 public class Alumnos implements IAlumnos {
 
+	
 	/*********ATRIBUTOS*********/
-	private static final String NOMBRE_FICHERO_ALUMNOS = "datos" + File.separator + "alumnos.dat";
+	
+	private static final String NOMBRE_FICHERO_ALUMNOS = "datos/alumnos.dat";
 	private List<Alumno> coleccionAlumnos;
 	
 		
 	/*******CONSTRUCTORES*******/
-	/**
-	 * Constructor sin parámetros.
-	 */
+
 	public Alumnos () throws NullPointerException, IllegalArgumentException {
 		coleccionAlumnos = new ArrayList<>();
 	}
 
-	
-	/**
-	 * Método que llama al método leer.
-	 */
+	@Override
 	public void comenzar() {
 		leer();
 	}
 	
-	/**
-	 * Método que premite leer el fichero de alumnos.
-	 */
 	private void leer() {
 		File ficheroAlumnos = new File(NOMBRE_FICHERO_ALUMNOS);
 		try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream(ficheroAlumnos))) {
@@ -54,7 +55,7 @@ public class Alumnos implements IAlumnos {
 		} catch (ClassNotFoundException e) {
 			System.out.println("No se ha podido encontrar la clase a leer.");
 		} catch (FileNotFoundException e) {
-			System.out.println("No se ha podido abrir el fichero de alumnos.");
+			System.out.println("No se ha podido abrir el fichero alumnos.");
 		} catch (EOFException e) {
 			System.out.println("Fichero alumnos leido satisfactoriamente.");
 		} catch (IOException e) {
@@ -64,46 +65,31 @@ public class Alumnos implements IAlumnos {
 		}
 	}
 	
-	/**
-	 * Método que llama al método escribir.
-	 */
+	@Override
 	public void terminar() {
 		escribir();
 	}
 	
-	/**
-	 * Método que permite escribir en el fichero de alumnos.
-	 */
 	private void escribir() {
 		File ficheroAlumnos = new File(NOMBRE_FICHERO_ALUMNOS);
 		try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(ficheroAlumnos))) {
 			for (Alumno alumno : coleccionAlumnos) {
 				salida.writeObject(alumno);
-				System.out.println("Fichero alumnos escrito satisfactoriamente.");
 			}
+			System.out.println("Fichero alumnos escrito satisfactoriamente.");
 		} catch (FileNotFoundException e) {
-			System.out.println("No se ha podido crear el fichero de alumnos.");
+			System.out.println("No se ha podido crear el fichero alumnos.");
 		} catch (IOException e) {
 			System.out.println("Error inesperado de Entrada/Salida");
 		}
 	}
 	
-	
-	/**
-	 * Método que devuelve una copia profunda de la colección.
-	 * @return alumnosOrdenados
-	 */
 	public List<Alumno> get() throws NullPointerException, IllegalArgumentException {
 		List<Alumno> alumnosOrdenados = copiaProfundaAlumnos();
 		alumnosOrdenados.sort(Comparator.comparing(Alumno::getCorreo));
 		return alumnosOrdenados;
 	}
 	
-	
-	/**
-	 * Método que devuelve una copia de la colección de alumnos.
-	 * @return copiaAlumnos
-	 */
 	private List<Alumno> copiaProfundaAlumnos() throws NullPointerException, IllegalArgumentException {
 		List<Alumno> copiaAlumnos = new ArrayList<>();
 		for (Alumno alumno : coleccionAlumnos) {
@@ -112,11 +98,6 @@ public class Alumnos implements IAlumnos {
 		return copiaAlumnos;
 	}
 	
-	
-	/**
-	 *  Método que devuelve el tamaño.
-	 * @return coleccionAlumnos.size()
-	 */
 	public int getTamano() {
 		return coleccionAlumnos.size();
 	}
@@ -124,11 +105,6 @@ public class Alumnos implements IAlumnos {
 		
 	/********OTROS MÉTODOS********/
 	
-	/**
-	 * Método para insertar un alumno a la colección.
-	 * @param alumno
-	 * @throws OperationNotSupportedException
-	 */
 	public void insertar(Alumno alumno) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException {
 		if (alumno == null) {
 			throw new NullPointerException("ERROR: No se puede insertar un alumno nulo.");
@@ -141,11 +117,6 @@ public class Alumnos implements IAlumnos {
 		}
 	}
 
-	/**
-	 * Método que permite buscar un alumno en la colección.
-	 * @param alumno
-	 * @return alumno
-	 */
 	public Alumno buscar(Alumno alumno) throws NullPointerException, IllegalArgumentException {
 		if (alumno == null) {
 			throw new IllegalArgumentException("ERROR: No se puede buscar un alumno nulo.");
@@ -158,11 +129,6 @@ public class Alumnos implements IAlumnos {
 		}
 	}
 	
-	/**
-	 * Método para borrar un alumno de la colección.
-	 * @param alumno
-	 * @throws OperationNotSupportedException
-	 */
 	public void borrar(Alumno alumno) throws OperationNotSupportedException {
 		if (alumno == null) {
 			throw new IllegalArgumentException("ERROR: No se puede borrar un alumno nulo.");

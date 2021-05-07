@@ -6,6 +6,13 @@ import javax.naming.OperationNotSupportedException;
 
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Alumno;
 
+/**
+ * 
+ * @author Marta García
+ * versión: v3
+ *
+ */
+
 public interface IAlumnos {
 	
 	void comenzar();

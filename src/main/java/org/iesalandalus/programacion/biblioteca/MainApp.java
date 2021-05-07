@@ -8,6 +8,13 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.Modelo;
 import org.iesalandalus.programacion.biblioteca.mvc.vista.FactoriaVista;
 import org.iesalandalus.programacion.biblioteca.mvc.vista.IVista;
 
+/**
+ * 
+ * @author Marta García
+ * versión: v3
+ *
+ */
+
 public class MainApp {
 
 	public static void main(String[] args) {

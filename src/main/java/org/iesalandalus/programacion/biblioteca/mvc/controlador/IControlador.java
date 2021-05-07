@@ -11,6 +11,13 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
 
+/**
+ * 
+ * @author Marta García
+ * Versión: v3
+ *
+ */
+
 public interface IControlador {
 
 	void comenzar();
@@ -23,7 +30,8 @@ public interface IControlador {
 	
 	void prestar(Prestamo prestamo) throws OperationNotSupportedException;
 	
-	void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException;
+	void devolver(Prestamo prestamo, LocalDate fechaDevolucion) 
+			throws OperationNotSupportedException, NullPointerException, IllegalArgumentException;
 	
 	Alumno buscar(Alumno alumno);
 	

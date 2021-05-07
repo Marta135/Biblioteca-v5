@@ -1,5 +1,12 @@
 package org.iesalandalus.programacion.biblioteca.mvc.vista.texto;
 
+/**
+ * 
+ * @author Marta García
+ * versión: 3v
+ *
+ */
+
 public enum Opcion {
 
 	INSERTAR_ALUMNO("Insertar alumno") {
@@ -102,59 +109,28 @@ public enum Opcion {
 	
 	/********OTROS MÉTODOS********/
 	
-	/**
-	 * Constructor que aceptará una cadena, correspondiente al mensaje que 
-	 * se mostrará por pantalla para dicha opción. 
-	 * @param mensaje
-	 */
 	private Opcion(String mensaje) {
 		this.mensaje = mensaje;
 	}
 	
-	/**
-	 * Método que será implementado en cada una de las instancias. 
-	 */
 	public abstract void ejecutar();
 	
-	/**
-	 * Método que asigna el valor pasado al atributo vista.
-	 * @param vista
-	 */
 	protected static void setVista(VistaTexto vista) {
-		if (vista == null) {
-			throw new NullPointerException("ERROR: La vista no puede ser nula.");
-		}
 		Opcion.vista = vista;
 	}
 	
-	/**
-	 * Método que devuelve la instancia de Opcion que ocupe el ordinal pasado 
-	 * por parámetro.
-	 * @param ordinal
-	 * @return Opcion
-	 */
 	public static Opcion getOpcionSegunOrdinal(int ordinal) {
 		if(esOrdinalValido(ordinal)) {
 			return values()[ordinal];
 		} else {
-			throw new IllegalArgumentException("Ordinal de la opción no válido.");
+			throw new IllegalArgumentException("ERROR: Ordinal de la opción no válido.");
 		}
 	}
 	
-	/**
-	 * Método que devolverá un boolean indicando si el ordinal pasado por 
-	 * parámetro está dentro de los posibles ordinales. 
-	 * @param ordinal
-	 * @return true o false
-	 */
 	public static boolean esOrdinalValido(int ordinal) {
 		return (ordinal >= 0 && ordinal <= values().length -1);
 	}
 	
-	/**
-	 * Método que devuelve la concatenación del ordinal de la opción y el 
-	 * mensaje a mostrar por la opción en cuestión.
-	 */
 	@Override
 	public String toString() {
 		return String.format("%d.- %s", ordinal(), mensaje);

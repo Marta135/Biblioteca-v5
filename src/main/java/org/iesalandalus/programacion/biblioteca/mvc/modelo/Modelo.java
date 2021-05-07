@@ -14,6 +14,13 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.IAlumnos;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.ILibros;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.IPrestamos;
 
+/**
+ * 
+ * @author Marta García
+ * versión: v3
+ *
+ */
+
 public class Modelo implements IModelo{
 
 	/*********ATRIBUTOS*********/
@@ -24,11 +31,7 @@ public class Modelo implements IModelo{
 	
 	
 	/*******CONSTRUCTOR*******/
-	/**
-	 * Constructor con parámetros:
-	 * Acepta como parámetro una fuente de datos, crea los objetos llamando a
-	 * los métodos de la interfaz IFuenteDatos. 
-	 */
+	
 	public Modelo(IFuenteDatos fuenteDatos) {
 		alumnos = fuenteDatos.crearAlumnos();
 		libros = fuenteDatos.crearLibros();
@@ -36,49 +39,34 @@ public class Modelo implements IModelo{
 	}
 	
 
-	/********OTROS MÉTODOS********/
-	/**
-	 * Método que premite leer los distintos ficheros.
-	 */ 
+	/********MÉTODOS********/
+	
+	@Override 
 	public void comenzar() {
 		alumnos.comenzar();
 		libros.comenzar();
 		prestamos.comenzar();
 	}
 	
-	/**
-	 * Método que permite escribir en los distintos ficheros.
-	 */
+	@Override 
 	public void terminar() {
 		alumnos.terminar();
 		libros.terminar();
 		prestamos.terminar();
 	}
 	
-	/**
-	 * Método que permite insertar un alumno.
-	 * @param alumno
-	 * @throws OperationNotSupportedException
-	 */
-	public void insertar(Alumno alumno) throws OperationNotSupportedException, NullPointerException {
+	@Override 
+	public void insertar(Alumno alumno) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException {
 		alumnos.insertar(alumno);
 	}
 	
-	/**
-	 * Método que permite insertar un libro.
-	 * @param libro
-	 * @throws OperationNotSupportedException
-	 */
-	public void insertar(Libro libro) throws OperationNotSupportedException, NullPointerException  {
+	@Override 
+	public void insertar(Libro libro) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException  {
 		libros.insertar(libro);
 	}
 	
-	/**
-	 * Método que permite hacer un préstamo de un libro a un alumno.
-	 * @param prestamo
-	 * @throws OperationNotSupportedException
-	 */
-	public void prestar(Prestamo prestamo) throws OperationNotSupportedException {
+	@Override 
+	public void prestar(Prestamo prestamo) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException  {
 		if (prestamo ==  null) {
 			throw new NullPointerException("ERROR: No se puede prestar un préstamo nulo.");
 		}
@@ -93,12 +81,7 @@ public class Modelo implements IModelo{
 		prestamos.prestar(new Prestamo(alumno, libro, prestamo.getFechaPrestamo()));
 	}
 	
-	/**
-	 * Método que premite devolver un libro.
-	 * @param prestamo
-	 * @param fechaDevolucion
-	 * @throws OperationNotSupportedException
-	 */
+	@Override 
 	public void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException {
 		prestamo = prestamos.buscar(prestamo);
 		if (prestamo == null) {
@@ -107,39 +90,23 @@ public class Modelo implements IModelo{
 		prestamos.devolver(prestamo, fechaDevolucion);
 	}
 	
-	/**
-	 * Método que permite buscar un alumno determinado.
-	 * @param alumno
-	 * @return alumno
-	 */
+	@Override 
 	public Alumno buscar(Alumno alumno) throws NullPointerException, IllegalArgumentException {
 		return alumnos.buscar(alumno);
 	}
 	
-	/**
-	 * Método que permite buscar un libro determinado.
-	 * @param libro
-	 * @return libro
-	 */
+	@Override 
 	public Libro buscar(Libro libro) throws NullPointerException, IllegalArgumentException {
 		return libros.buscar(libro);
 	}
 	
-	/**
-	 * Método que permite buscar un préstamo determinado.
-	 * @param prestamo
-	 * @return prestamo
-	 */
+	@Override 
 	public Prestamo buscar(Prestamo prestamo) throws NullPointerException, IllegalArgumentException {
 		return prestamos.buscar(prestamo);
 	}
 	
-	/**
-	 * Método que permite eliminar un alumno de la colección.
-	 * @param alumno
-	 * @throws OperationNotSupportedException
-	 */
-	public void borrar(Alumno alumno) throws OperationNotSupportedException, IllegalArgumentException {
+	@Override 
+	public void borrar(Alumno alumno) throws OperationNotSupportedException {
 		List<Prestamo> prestamosAlumno = prestamos.get(alumno);
 		for (Prestamo prestamo : prestamosAlumno) {
 			prestamos.borrar(prestamo);
@@ -147,12 +114,8 @@ public class Modelo implements IModelo{
 		alumnos.borrar(alumno);
 	}
 	
-	/**
-	 *  Método que permite eliminar un libro de la colección.
-	 * @param libro
-	 * @throws OperationNotSupportedException
-	 */
-	public void borrar(Libro libro) throws OperationNotSupportedException, IllegalArgumentException {
+	@Override 
+	public void borrar(Libro libro) throws OperationNotSupportedException {
 		List<Prestamo> prestamosLibro = prestamos.get(libro);
 		for (Prestamo prestamo : prestamosLibro) {
 			prestamos.borrar(prestamo);
@@ -160,71 +123,42 @@ public class Modelo implements IModelo{
 		libros.borrar(libro);
 	}
 	
-	/**
-	 *  Método que permite borrar un préstamo.
-	 * @param prestamo
-	 * @throws OperationNotSupportedException
-	 */
-	public void borrar(Prestamo prestamo) throws OperationNotSupportedException, IllegalArgumentException {
+	@Override 
+	public void borrar(Prestamo prestamo) throws OperationNotSupportedException {
 		prestamos.borrar(prestamo);
 	}
 	
-	/**
-	 * Método que devuelve los datos de los alumnos.
-	 * @return alumnos
-	 */
+	@Override 
 	public List<Alumno> getAlumnos() {
 		return alumnos.get();
 	}
 	
-	/**
-	 * Método que devuelve los datos de los libros prestados.
-	 * @return libros
-	 */
+	@Override 
 	public List<Libro> getLibros() {
 		return libros.get();
 	}
 	
-	/**
-	 * Método que devuelve todos los préstamos realizados.
-	 * @return prestamos
-	 */
+	@Override 
 	public List<Prestamo> getPrestamos() {
 		return prestamos.get();
 	}
 	
-	/**
-	 * Método que devuelve los préstamos de un alumno determinado.
-	 * @param alumno
-	 * @return prestamos.get(alumno)
-	 */
+	@Override 
 	public List<Prestamo> getPrestamos(Alumno alumno) {
 		return prestamos.get(alumno);
 	}
 	
-	/**
-	 * Método que devuelve los préstamos de un libro determinado.
-	 * @param libro
-	 * @return prestamos.get(libro)
-	 */
+	@Override 
 	public List<Prestamo> getPrestamos(Libro libro) {
 		return prestamos.get(libro);
 	}
 	
-	/**
-	 * Método que devuelve los préstamos realizados en una fecha determinada.
-	 * @param fechaPrestamo
-	 * @return prestamos.get(fechaPrestamo)
-	 */
+	@Override 
 	public List<Prestamo> getPrestamos(LocalDate fechaPrestamo) {
 		return prestamos.get(fechaPrestamo);
 	}
 	
-	/**
-	 * Método que devuelve la estadística mensual por curso.
-	 * @param fecha
-	 * @return getEstadisticaMensualPorCurso
-	 */
+	@Override 
 	public Map<Curso, Integer> getEstadisticaMensualPorCurso(LocalDate fecha) {
 		return prestamos.getEstadisticaMensualPorCurso(fecha);
 	}
