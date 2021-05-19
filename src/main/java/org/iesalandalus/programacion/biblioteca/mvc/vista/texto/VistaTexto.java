@@ -166,7 +166,7 @@ public class VistaTexto implements IVista {
 	public void devolverLibro() {
 		Consola.mostrarCabecera("DEVOLUCIÓN DE LIBRO");
 		try {
-			controlador.devolver(Consola.leerPrestamo(), Consola.leerFecha("Introduce la fecha de devolución"));
+			controlador.devolver(Consola.leerPrestamoFicticio(), Consola.leerFecha("Introduce la fecha de devolución"));
 			System.out.println("Libro devuelto correctamente.");
 		} catch (OperationNotSupportedException | IllegalArgumentException | NullPointerException e) {
 			System.out.println(e.getMessage());
@@ -211,7 +211,7 @@ public class VistaTexto implements IVista {
 	public void listarPrestamosAlumno() {
 		Consola.mostrarCabecera("LISTADO DE PRÉSTAMOS POR ALUMNO");
 		try {
-			List<Prestamo> prestamos =  controlador.getPrestamos(Consola.leerAlumno());
+			List<Prestamo> prestamos =  controlador.getPrestamos(Consola.leerAlumnoFicticio());
 			if (!prestamos.isEmpty()) {
 				for (Prestamo prestamo : prestamos) {
 					if (prestamo != null) {
@@ -230,7 +230,7 @@ public class VistaTexto implements IVista {
 	public void listarPrestamosLibro() {
 		Consola.mostrarCabecera("LISTADO DE PRÉSTAMOS POR LIBRO");
 		try {
-			List<Prestamo> prestamos = controlador.getPrestamos(Consola.leerLibro());
+			List<Prestamo> prestamos = controlador.getPrestamos(Consola.leerLibroFicticio());
 			if (!prestamos.isEmpty()) {
 				for (Prestamo prestamo : prestamos) {
 					if (prestamo != null){

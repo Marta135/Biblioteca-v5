@@ -104,7 +104,7 @@ public class Consola {
 			System.out.println("1.- Libro Escrito");
 			System.out.println("2.- Audio Libro");
 			tipoLibro = Entrada.entero();
-		} while (tipoLibro<1 && tipoLibro>2);
+		} while (tipoLibro<1 || tipoLibro>2);
 		
 		Libro libro = null;
 		if (tipoLibro == 1) {
@@ -128,7 +128,7 @@ public class Consola {
 	}
 	
 	public static Prestamo leerPrestamo() {
-		return new Prestamo(leerAlumno(), leerLibro(), leerFecha("Introduce la fecha de el préstamo: "));
+		return new Prestamo(leerAlumno(), leerLibro(), leerFecha("Introduce la fecha del préstamo "));
 	}
 	
 	public static Prestamo leerPrestamoFicticio() {

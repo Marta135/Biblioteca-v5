@@ -36,7 +36,7 @@ public abstract class Libro implements Serializable {
 	}
 	
 	public static Libro getLibroFicticio(String titulo, String autor) throws NullPointerException, IllegalArgumentException {
-		return new LibroEscrito(titulo, autor, 100);
+		return new LibroEscrito(titulo, autor, 300);
 	}
 	
 	public abstract float getPuntos();

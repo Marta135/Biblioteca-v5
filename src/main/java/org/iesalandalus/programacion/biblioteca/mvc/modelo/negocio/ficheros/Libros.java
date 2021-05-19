@@ -97,8 +97,7 @@ public class Libros implements ILibros{
 		for (Libro libro : coleccionLibros) {
 			if (libro instanceof LibroEscrito) {
 				copiaLibros.add(new LibroEscrito((LibroEscrito)libro));
-			} 
-			if (libro instanceof AudioLibro) {
+			} else if (libro instanceof AudioLibro) {
 				copiaLibros.add(new AudioLibro((AudioLibro)libro));
 			}
 		}
@@ -116,17 +115,16 @@ public class Libros implements ILibros{
 		if (libro == null) {
 			throw new NullPointerException("ERROR: No se puede insertar un libro nulo.");
 		}
-		int indice = coleccionLibros.indexOf(libro);
-		if (indice == -1) {
+		if (!coleccionLibros.contains(libro)) {
 			if (libro instanceof LibroEscrito) {
-				coleccionLibros.add(new LibroEscrito((LibroEscrito)libro));
-			} 
-			if (libro instanceof AudioLibro) {
-				coleccionLibros.add(new AudioLibro((AudioLibro)libro));
+				coleccionLibros.add(new LibroEscrito((LibroEscrito) libro));
+			} else if (libro instanceof AudioLibro) {
+				coleccionLibros.add(new AudioLibro((AudioLibro) libro));
 			}
 		} else {
 			throw new OperationNotSupportedException("ERROR: Ya existe un libro con ese título y autor.");
 		}
+		
 	}
 	
 	public Libro buscar(Libro libro) throws IllegalArgumentException, NullPointerException {
@@ -134,17 +132,19 @@ public class Libros implements ILibros{
 			throw new IllegalArgumentException("ERROR: No se puede buscar un libro nulo.");
 		}
 		int indice = coleccionLibros.indexOf(libro);
+		
+		Libro libroDevuelto = null;
 		if (indice == -1) {
-			return null;
+			libroDevuelto = null;
 		} else {
 			if (libro instanceof LibroEscrito) {
-				return new LibroEscrito((LibroEscrito)coleccionLibros.get(indice));
-			} 
-			if (libro instanceof AudioLibro) {
-				return new AudioLibro((AudioLibro)coleccionLibros.get(indice));
+				libroDevuelto = new LibroEscrito((LibroEscrito) libro);
+			} else if (libro instanceof AudioLibro) {
+				libroDevuelto = new AudioLibro((AudioLibro) libro);
 			}
+
 		}
-		return libro;
+		return libroDevuelto;
 	}
 	
 	public void borrar(Libro libro) throws OperationNotSupportedException {
