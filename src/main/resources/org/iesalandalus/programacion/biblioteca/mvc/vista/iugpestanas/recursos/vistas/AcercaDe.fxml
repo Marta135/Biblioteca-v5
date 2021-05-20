@@ -11,7 +11,10 @@
       <Insets left="20.0" right="20.0" top="20.0" />
    </padding>
    <children>
-      <Label style="-fx-font: 25 Arial;" text="Programación - JavaFX" />
+      <Label style="-fx-font: 25 Arial;" text="Programación - JavaFX">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin></Label>
       <ImageView fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../imagenes/logo-ies.png" />
@@ -19,9 +22,9 @@
       </ImageView>
       <Label style="-fx-font: 20 Arial;" text="Gestión de préstamos de la Biblioteca" />
       <Label style="-fx-font: 20 Arial;" text="Marta García Ortega">
-         <padding>
-            <Insets bottom="20.0" />
-         </padding>
+         <VBox.margin>
+            <Insets bottom="30.0" />
+         </VBox.margin>
       </Label>
    </children>
 </VBox>

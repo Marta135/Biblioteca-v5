@@ -53,7 +53,7 @@
          </padding>
          <children>
             <Button fx:id="btCancelar" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
-            <Button fx:id="btAceptar" mnemonicParsing="false" onAction="#aceptar" text="Aceptar" />
+            <Button fx:id="btAceptar" mnemonicParsing="false" onAction="#realizarPrestamo" text="Aceptar" />
          </children>
       </HBox>
    </children>

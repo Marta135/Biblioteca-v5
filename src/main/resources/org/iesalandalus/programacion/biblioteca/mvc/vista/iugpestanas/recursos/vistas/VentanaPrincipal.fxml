@@ -165,7 +165,7 @@
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#realizarPrestamo" text="Realizar Préstamo" />
                                     <MenuItem mnemonicParsing="false" onAction="#realizarDevolucion" text="Realizar Devolución" />
-                                    <MenuItem mnemonicParsing="false" onAction="#mostrarEstadisticas" text="Mostrar Estadísticas" />
+                                    <MenuItem mnemonicParsing="false" onAction="#mostrarEstadistica" text="Mostrar Estadísticas" />
                                     <SeparatorMenuItem mnemonicParsing="false" />
                                     <MenuItem mnemonicParsing="false" onAction="#eliminarPrestamo" text="Eliminar Préstamo" />
                                 </items>
