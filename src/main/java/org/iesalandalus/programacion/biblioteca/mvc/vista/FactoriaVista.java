@@ -1,11 +1,12 @@
 package org.iesalandalus.programacion.biblioteca.mvc.vista;
 
+import org.iesalandalus.programacion.biblioteca.mvc.vista.iugpestanas.VistaIUGPestanas;
 import org.iesalandalus.programacion.biblioteca.mvc.vista.texto.VistaTexto;
 
 /**
  * 
  * @author Marta García
- * versión: v3
+ * versión: Biblioteca_v4
  *
  */
 
@@ -15,6 +16,14 @@ public enum FactoriaVista {
 		@Override
 		public IVista crear() {
 			return new VistaTexto();
+		}
+	},
+	
+	IUGPESTANAS {
+
+		@Override
+		public IVista crear() {
+			return new VistaIUGPestanas();
 		}
 	};
 	

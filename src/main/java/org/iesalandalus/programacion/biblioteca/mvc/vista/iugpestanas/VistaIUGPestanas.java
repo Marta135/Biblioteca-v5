@@ -13,6 +13,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+/**
+ * 
+ * @author Marta García
+ * versión: Biblioteca_v4
+ *
+ */
 public class VistaIUGPestanas extends Application implements IVista {
 
 	private static IControlador controladorMVC = null;
@@ -35,7 +41,8 @@ public class VistaIUGPestanas extends Application implements IVista {
 	@Override
 	public void start(Stage escenarioPrincipal) throws Exception {
 		try {
-			FXMLLoader cargadorVentanaPrincipal = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/VentanaPrincipal.fxml"));
+			FXMLLoader cargadorVentanaPrincipal = new FXMLLoader(
+					LocalizadorRecursos.class.getResource("vistas/VentanaPrincipal.fxml"));
 			VBox raiz = cargadorVentanaPrincipal.load();
 			ControladorVentanaPrincipal cVentanaPrincipal = cargadorVentanaPrincipal.getController();
 			cVentanaPrincipal.setControladorMVC(controladorMVC);
@@ -45,7 +52,7 @@ public class VistaIUGPestanas extends Application implements IVista {
 			
 			Scene escena = new Scene(raiz);
 			escenarioPrincipal.setOnCloseRequest(e -> confirmarSalida(escenarioPrincipal, e));
-			escenarioPrincipal.setTitle("Gestión de la Biblioteca");
+			escenarioPrincipal.setTitle("Aplicación para la gestión de la Biblioteca");
 			escenarioPrincipal.setScene(escena);
 			escenarioPrincipal.setResizable(false);
 			escenarioPrincipal.show();			

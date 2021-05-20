@@ -5,7 +5,7 @@ import org.iesalandalus.programacion.biblioteca.mvc.controlador.IControlador;
 /**
  * 
  * @author Marta García
- * versión: v3
+ * versión: Biblioteca_v4
  *
  */
 
