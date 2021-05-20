@@ -46,7 +46,6 @@
                               <ContextMenu>
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#anadirAlumno" text="Añadir Alumno" />
-                                    <MenuItem mnemonicParsing="false" onAction="#buscarAlumno" text="Buscar Alumno" />
                                     <MenuItem mnemonicParsing="false" onAction="#borrarAlumno" text="Borrar Alumno" />
                                 </items>
                               </ContextMenu>
@@ -64,16 +63,6 @@
                               <TableColumn fx:id="tcPAFechaDevolucion" prefWidth="175.0" text="Fecha Devolución" />
                               <TableColumn fx:id="tcPAPuntos" prefWidth="90.0" text="Puntos" />
                           </columns>
-                           <contextMenu>
-                              <ContextMenu>
-                                <items>
-                                    <MenuItem mnemonicParsing="false" onAction="#realizarPrestamoAlumno" text="Realizar Préstamo" />
-                                    <MenuItem mnemonicParsing="false" onAction="#realizarDevolucionAlumno" text="Realizar Devolución" />
-                                    <SeparatorMenuItem mnemonicParsing="false" />
-                                    <MenuItem mnemonicParsing="false" onAction="#eliminarPrestamoAlumno" text="Eliminar Préstamo" />
-                                </items>
-                              </ContextMenu>
-                           </contextMenu>
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -103,9 +92,11 @@
                         </Label>
                         <TableView fx:id="tvLibros" prefHeight="200.0" prefWidth="200.0">
                           <columns>
-                            <TableColumn fx:id="tcTitulo" prefWidth="282.0" text="Título" />
-                            <TableColumn fx:id="tcAutor" prefWidth="230.0" text="Autor" />
-                              <TableColumn fx:id="tcTipo" prefWidth="117.0" text="Típo de Libro" />
+                            <TableColumn fx:id="tcTitulo" prefWidth="186.0" text="Título" />
+                            <TableColumn fx:id="tcAutor" prefWidth="160.0" text="Autor" />
+                              <TableColumn fx:id="tcTipo" prefWidth="113.0" text="Típo de Libro" />
+                              <TableColumn fx:id="tcPaginas" prefWidth="86.0" text="Páginas" />
+                              <TableColumn fx:id="tcDuracion" prefWidth="84.0" text="Duración" />
                           </columns>
                            <VBox.margin>
                               <Insets />
@@ -114,7 +105,6 @@
                               <ContextMenu>
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#anadirLibro" text="Añadir Libro" />
-                                    <MenuItem mnemonicParsing="false" onAction="#buscarLibro" text="Buscar Libro" />
                                     <MenuItem mnemonicParsing="false" onAction="#borrarLibro" text="Borrar Libro" />
                                 </items>
                               </ContextMenu>
@@ -132,16 +122,6 @@
                               <TableColumn fx:id="tcPLFechaDevolucion" prefWidth="128.0" text="Fecha Devolución" />
                               <TableColumn fx:id="tcPLPuntos" prefWidth="118.0" text="Puntos" />
                           </columns>
-                           <contextMenu>
-                              <ContextMenu>
-                                <items>
-                                    <MenuItem mnemonicParsing="false" onAction="#realizarPrestamoLibro" text="Realizar Préstamo" />
-                                    <MenuItem mnemonicParsing="false" onAction="#realizarDevolucionLibro" text="Realizar Devolución" />
-                                    <SeparatorMenuItem mnemonicParsing="false" />
-                                    <MenuItem mnemonicParsing="false" onAction="#eliminarPrestamoLibro" text="Eliminar Préstamo" />
-                                </items>
-                              </ContextMenu>
-                           </contextMenu>
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -185,7 +165,6 @@
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#realizarPrestamo" text="Realizar Préstamo" />
                                     <MenuItem mnemonicParsing="false" onAction="#realizarDevolucion" text="Realizar Devolución" />
-                                    <MenuItem mnemonicParsing="false" onAction="#buscarPrestamo" text="Buscar Préstamo" />
                                     <MenuItem mnemonicParsing="false" onAction="#mostrarEstadisticas" text="Mostrar Estadísticas" />
                                     <SeparatorMenuItem mnemonicParsing="false" />
                                     <MenuItem mnemonicParsing="false" onAction="#eliminarPrestamo" text="Eliminar Préstamo" />

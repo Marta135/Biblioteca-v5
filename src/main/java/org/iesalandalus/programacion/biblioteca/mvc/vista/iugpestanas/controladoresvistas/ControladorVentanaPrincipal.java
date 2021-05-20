@@ -29,6 +29,7 @@ public class ControladorVentanaPrincipal {
 
 	private static final DateTimeFormatter FORMATO_FECHA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	private static final String BORRAR_ALUMNO = "Borrar Alumno";
+	private static final String BORRAR_LIBRO = "Borrar Libro";
 	private static final String PUNTOS = "puntos";
 	
 	private IControlador controladorMVC;
@@ -60,6 +61,8 @@ public class ControladorVentanaPrincipal {
 	@FXML private TableColumn<Libro, String> tcTitulo;
 	@FXML private TableColumn<Libro, String> tcAutor;
 	@FXML private TableColumn<Libro, String> tcTipo;
+	@FXML private TableColumn<Libro, String> tcPaginas;
+	@FXML private TableColumn<Libro, String> tcDuracion;
 	
 	@FXML private TableView<Prestamo> tvPrestamosLibro;
 	@FXML private TableColumn<Prestamo, String> tcPLAlumno;
@@ -76,13 +79,15 @@ public class ControladorVentanaPrincipal {
 	
 	private Stage anadirAlumno;
 	private ControladorAnadirAlumno cAnadirAlumno;
+	private Stage anadirLibro;
+	private ControladorAnadirLibro cAnadirLibro;
 	
 	
 	@FXML
 	private void initialize() {
 		tcNombreAlumno.setCellValueFactory(new PropertyValueFactory<>("nombre"));
 		tcCorreo.setCellValueFactory(new PropertyValueFactory<>("correo"));
-		tcCurso.setCellValueFactory(new PropertyValueFactory<>("correo"));
+		tcCurso.setCellValueFactory(new PropertyValueFactory<>("curso"));
 		tvAlumnos.setItems(alumnos);
 		tvAlumnos.getSelectionModel().selectedItemProperty().addListener((ob, ov, nv) -> mostrarPrestamosAlumno(nv));
 		
@@ -91,6 +96,20 @@ public class ControladorVentanaPrincipal {
 		tcPAFechaDevolucion.setCellValueFactory(prestamo -> new SimpleStringProperty(FORMATO_FECHA.format(prestamo.getValue().getFechaDevolucion())));
 		tcPAPuntos.setCellValueFactory(new PropertyValueFactory<>(PUNTOS));
 		tvPrestamosAlumno.setItems(prestamosAlumno);
+		
+		tcTitulo.setCellValueFactory(new PropertyValueFactory<>("titulo"));
+		tcAutor.setCellValueFactory(new PropertyValueFactory<>("autor"));
+		tcTipo.setCellValueFactory(libro -> new SimpleStringProperty(libro.getValue().getNombreClase()));
+		tcPaginas.setCellValueFactory(new PropertyValueFactory<>("numPaginas"));
+		tcDuracion.setCellValueFactory(new PropertyValueFactory<>("duracion"));
+		tvLibros.getSelectionModel().selectedItemProperty().addListener((ob, ov, nv) -> mostrarPrestamosLibro(nv));;
+		
+		tcPLAlumno.setCellValueFactory(prestamo -> new SimpleStringProperty(prestamo.getValue().getAlumno().getNombre()));
+		tcPLFechaPrestamo.setCellValueFactory(prestamo -> new SimpleStringProperty(FORMATO_FECHA.format(prestamo.getValue().getFechaPrestamo())));
+		tcPLFechaDevolucion.setCellValueFactory(prestamo -> new SimpleStringProperty(FORMATO_FECHA.format(prestamo.getValue().getFechaDevolucion())));
+		tcPLPuntos.setCellValueFactory(new PropertyValueFactory<>(PUNTOS));
+		tvPrestamosLibro.setItems(prestamosLibro);
+		
 		
 	}
 	
@@ -113,6 +132,12 @@ public class ControladorVentanaPrincipal {
 		crearAnadirAlumno();
 		anadirAlumno.showAndWait();
 	}
+	
+	@FXML
+	void anadirLibro(ActionEvent event) throws IOException {
+		crearAnadirLibro();
+	    anadirLibro.showAndWait();
+	}
 
 	@FXML
 	void borrarAlumno(ActionEvent event) {
@@ -131,11 +156,34 @@ public class ControladorVentanaPrincipal {
 		}
 	}
 	
+	@FXML
+	void borrarLibro(ActionEvent event) {
+		Libro libro = null;
+			try {
+				libro = tvLibros.getSelectionModel().getSelectedItem();
+				if (libro != null && Dialogos.mostrarDialogoConfirmacion(BORRAR_LIBRO, "¿Estás seguro de que quieres borrar el libro?", null)) {
+					controladorMVC.borrar(libro);
+					libros.remove(libro);
+					prestamosLibro.clear();
+					actualizaLibros();
+					Dialogos.mostrarDialogoInformacion(BORRAR_LIBRO, "Libro borrado satisfactoriamente");
+				}
+			} catch (Exception e) {
+				Dialogos.mostrarDialogoError(BORRAR_LIBRO, e.getMessage());
+			}
+	}
+	 
 	
     public void actualizaAlumnos() {
     	prestamosLibro.clear();
     	tvLibros.getSelectionModel().clearSelection();
     	alumnos.setAll(controladorMVC.getAlumnos());
+    }
+    
+    public void actualizaLibros() {
+    	prestamosAlumno.clear();
+    	tvAlumnos.getSelectionModel().clearSelection();
+    	libros.setAll(controladorMVC.getLibros());
     }
     
     public void actualizaPrestamos() {
@@ -150,6 +198,17 @@ public class ControladorVentanaPrincipal {
     		}
     	} catch (IllegalArgumentException e) {
     		prestamosAlumno.setAll(FXCollections.observableArrayList());
+    	}
+    	actualizaPrestamos();
+    }
+    
+    public void mostrarPrestamosLibro(Libro libro) {
+    	try {
+    		if (libro != null) {
+    			prestamosLibro.setAll(controladorMVC.getPrestamos(libro));
+    		}
+    	} catch (IllegalArgumentException e) {
+    		prestamosLibro.setAll(FXCollections.observableArrayList());
     	}
     	actualizaPrestamos();
     }
@@ -175,5 +234,23 @@ public class ControladorVentanaPrincipal {
     }
     
    
+    private void crearAnadirLibro() throws IOException {
+		if (anadirLibro == null) {
+			anadirLibro = new Stage();
+			FXMLLoader cargadorAnadirLibro = new FXMLLoader(
+					LocalizadorRecursos.class.getResource("vistas/AnadirLibro.fxml"));
+			VBox raizAnadirLibro = cargadorAnadirLibro.load();
+			cAnadirLibro = cargadorAnadirLibro.getController();
+			cAnadirLibro.setControladorMVC(controladorMVC);
+			cAnadirLibro.setLibros(libros);
+			cAnadirLibro.inicializa();
+			Scene escenaAnadirAlumno = new Scene(raizAnadirLibro);
+			anadirLibro.setTitle("Añadir Libro");
+			anadirLibro.initModality(Modality.APPLICATION_MODAL); 
+			anadirLibro.setScene(escenaAnadirAlumno);
+		} else {
+			cAnadirLibro.inicializa();
+		}
+	}
     
 }

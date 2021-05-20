@@ -50,7 +50,7 @@ public class ControladorAnadirAlumno {
 			controladorMVC.insertar(alumno);
 			alumnos.setAll(controladorMVC.getAlumnos());
 			Stage propietario = ((Stage) btAnadir.getScene().getWindow());
-			Dialogos.mostrarDialogoInformacion("Añadir Alumno", "Alumno añadido satisfactoriamente", propietario);
+			Dialogos.mostrarDialogoInformacion("Añadir Alumno", "Alumno añadido correctamente", propietario);
 		} catch (Exception e) {
 			Dialogos.mostrarDialogoError("Añadir Alumno", e.getMessage());
 		}	

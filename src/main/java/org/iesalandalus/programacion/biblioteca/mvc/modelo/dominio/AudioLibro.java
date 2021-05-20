@@ -66,4 +66,9 @@ public class AudioLibro extends Libro {
 		return String.format("%s, duración=%s", super.toString(), duracion);
 	}
 
+	@Override
+	public String getNombreClase() {
+		return "AudioLibro";
+	}
+
 }

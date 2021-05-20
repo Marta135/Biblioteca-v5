@@ -65,4 +65,9 @@ public class LibroEscrito extends Libro {
 		return String.format("%s, número de páginas=%s", super.toString(), numPaginas);
 	}
 
+	@Override
+	public String getNombreClase() {
+		return "Libro Escrito";
+	}
+
 }
