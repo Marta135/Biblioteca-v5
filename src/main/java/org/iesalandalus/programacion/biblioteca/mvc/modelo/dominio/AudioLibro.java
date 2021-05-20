@@ -1,38 +1,21 @@
 package org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio;
 
-/**
- * 
- * @author Marta García
- * versión: 3v
- *
- */
-
 public class AudioLibro extends Libro {
 
-	
-	/*********ATRIBUTOS*********/
-	
-	private static final long serialVersionUID = 1L;
 	private static final int MINUTOS_PARA_RECOMPENSA = 15;
 	private static final float PUNTOS_PREMIO = 0.25f;
 	private int duracion;
-	
-	
-	/*******CONSTRUCTORES*******/
-	
-	public AudioLibro (String titulo, String autor, int duracion) throws NullPointerException, IllegalArgumentException {
+
+	public AudioLibro(String titulo, String autor, int duracion) {
 		super(titulo, autor);
 		setDuracion(duracion);
 	}
-	
-	public AudioLibro (AudioLibro copiaLibro) throws NullPointerException, IllegalArgumentException {
+
+    public AudioLibro(AudioLibro copiaLibro) {
 		super(copiaLibro);
 		duracion = copiaLibro.getDuracion();
 	}
-
-	
-	/*********GETTERS Y SETTERS**********/
-	
+    
 	public int getDuracion() {
 		return duracion;
 	}
@@ -43,14 +26,12 @@ public class AudioLibro extends Libro {
 		}
 		this.duracion = duracion;
 	}
-	
-	public float getPuntos() {
-		return ((duracion / MINUTOS_PARA_RECOMPENSA) + 1) * PUNTOS_PREMIO;
-	}
-	
 
-	/********OTROS MÉTODOS********/
-	
+	@Override
+	public float getPuntos() {
+		return PUNTOS_PREMIO+(int)(getDuracion()/MINUTOS_PARA_RECOMPENSA)*PUNTOS_PREMIO;
+	}
+
 	@Override
 	public int hashCode() {
 		return super.hashCode();
@@ -63,12 +44,12 @@ public class AudioLibro extends Libro {
 
 	@Override
 	public String toString() {
-		return String.format("%s, duración=%s", super.toString(), duracion);
+		return String.format("título=%s, autor=%s, duración=%d", titulo.toString(), autor.toString(), duracion);
 	}
 
 	@Override
 	public String getNombreClase() {
-		return "AudioLibro";
+		return "Audiolibro";
 	}
-
+	
 }

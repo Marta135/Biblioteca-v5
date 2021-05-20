@@ -1,55 +1,37 @@
 package org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio;
 
-/**
- * 
- * @author Marta García
- * versión: v3
- *
- */
-
 public class LibroEscrito extends Libro {
 
-	/*********ATRIBUTOS*********/
-	
-	private static final long serialVersionUID = 1L;
 	private static final int PAGINAS_PARA_RECOMPENSA = 25;
 	private static final float PUNTOS_PREMIO = 0.5f;
 	private int numPaginas;
-	
 
-	/*******CONSTRUCTORES*******/
-	
-	public LibroEscrito (String titulo, String autor, int numPaginas) throws NullPointerException, IllegalArgumentException {
+	public LibroEscrito(String titulo, String autor, int numPaginas) {
 		super(titulo, autor);
 		setNumPaginas(numPaginas);
 	}
-	
-	public LibroEscrito (LibroEscrito copiaLibro) throws NullPointerException, IllegalArgumentException {
+
+    public LibroEscrito(LibroEscrito copiaLibro) {
 		super(copiaLibro);
 		numPaginas = copiaLibro.getNumPaginas();
 	}
-	
-	
-	/*********GETTERS Y SETTERS**********/
-	
+    
 	public int getNumPaginas() {
 		return numPaginas;
 	}
-	
+
 	private void setNumPaginas(int numPaginas) {
 		if (numPaginas <= 0) {
 			throw new IllegalArgumentException("ERROR: El número de páginas debe ser mayor que cero.");
 		}
 		this.numPaginas = numPaginas;
 	}
-	
+
+	@Override
 	public float getPuntos() {
-		return ((numPaginas / PAGINAS_PARA_RECOMPENSA) + 1) * PUNTOS_PREMIO;
+		return PUNTOS_PREMIO+(int)(getNumPaginas()/PAGINAS_PARA_RECOMPENSA)*PUNTOS_PREMIO;
 	}
-	
-	
-	/********OTROS MÉTODOS********/
-	
+
 	@Override
 	public int hashCode() {
 		return super.hashCode();
@@ -62,12 +44,12 @@ public class LibroEscrito extends Libro {
 
 	@Override
 	public String toString() {
-		return String.format("%s, número de páginas=%s", super.toString(), numPaginas);
+		return String.format("título=%s, autor=%s, número de páginas=%d", titulo.toString(), autor.toString(), numPaginas);
 	}
 
 	@Override
 	public String getNombreClase() {
 		return "Libro Escrito";
 	}
-
+	
 }

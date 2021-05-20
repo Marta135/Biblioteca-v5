@@ -1,95 +1,88 @@
 package org.iesalandalus.programacion.biblioteca.mvc.vista.texto;
 
-/**
- * 
- * @author Marta García
- * versión: 3v
- *
- */
-
 public enum Opcion {
 
-	INSERTAR_ALUMNO("Insertar alumno") {
+	INSERTAR_ALUMNO("Insertar Alumno") {
 		public void ejecutar() {
 			vista.insertarAlumno();
 		}
 	},
-	BUSCAR_ALUMNO("Buscar alumno") {
+	BUSCAR_ALUMNO("Buscar Alumno") {
 		public void ejecutar() {
 			vista.buscarAlumno();
 		}
 	},
-	BORRAR_ALUMNO("Borrar alumno") {
+	BORRAR_ALUMNO("Borrar Alumno") {
 		public void ejecutar() {
 			vista.borrarAlumno();
 		}
 	},
-	LISTAR_ALUMNOS("Listar alumnos") {
+	LISTAR_ALUMNOS("Listar Alumnos") {
 		public void ejecutar() {
 			vista.listarAlumnos();
 		}
 	},
-	INSERTAR_LIBRO("Insertar libro") {
+	INSERTAR_LIBRO("Insertar Libro") {
 		public void ejecutar() {
 			vista.insertarLibro();
 		}
 	},
-	BUSCAR_LIBRO("Buscar libro") {
+	BUSCAR_LIBRO("Buscar Libro") {
 		public void ejecutar() {
 			vista.buscarLibro();
 		}
 	},
-	BORRAR_LIBRO("Borrar libro") {
+	BORRAR_LIBRO("Borrar Libro") {
 		public void ejecutar() {
 			vista.borrarLibro();
 		}
 	},
-	LISTAR_LIBROS("Listar libros") {
+	LISTAR_LIBROS("Listar Libros") {
 		public void ejecutar() {
 			vista.listarLibros();
 		}
 	},
-	PRESTAR_LIBRO("Prestar libro") {
+	PRESTAR_LIBRO("Prestar Libro") {
 		public void ejecutar() {
 			vista.prestarLibro();
 		}
 	},
-	DEVOLVER_LIBRO("Devolver libro") {
+	DEVOLVER_LIBRO("Devolver Libro") {
 		public void ejecutar() {
 			vista.devolverLibro();
 		}
 	},
-	BUSCAR_PRESTAMO("Buscar préstamo") {
+	BUSCAR_PRESTAMO("Buscar Prestamo") {
 		public void ejecutar() {
 			vista.buscarPrestamo();
 		}
 	},
-	BORRAR_PRESTAMO("Borrar préstamo") {
+	BORRAR_PRESTAMO("Borrar Prestamo") {
 		public void ejecutar() {
 			vista.borrarPrestamo();
 		}
 	},
-	LISTAR_PRESTAMOS("Listar préstamos") {
+	LISTAR_PRESTAMOS("Listar Prestamos") {
 		public void ejecutar() {
 			vista.listarPrestamos();
 		}
 	},
-	LISTAR_PRESTAMOS_ALUMNO("Listar préstamos de un alumno") {
+	LISTAR_PRESTAMOS_ALUMNO("Listar prestamos de un alumno") {
 		public void ejecutar() {
 			vista.listarPrestamosAlumno();
 		}
 	},
-	LISTAR_PRESTAMOS_LIBRO("Listar préstamos de un libro") {
+	LISTAR_PRESTAMOS_LIBRO("Listar prestamos de un libro") {
 		public void ejecutar() {
 			vista.listarPrestamosLibro();
 		}
 	},
-	LISTAR_PRESTAMOS_FECHA("Listar préstamos de un mes") {
+	LISTAR_PRESTAMOS_FECHA("Listar prestamos en una fecha determinada") {
 		public void ejecutar() {
 			vista.listarPrestamosFecha();
 		}
 	},
-	MOSTRAR_ESTADISTICA_MENSUAL_POR_CURSO("Mostrar estadística mensual por curso") {
+	MOSTRAR_ESTADISTICA_MENSUAL_POR_CURSO("Listar estadistica mensual por curso") {
 		public void ejecutar() {
 			vista.mostrarEstadisticaMensualPorCurso();
 		}
@@ -99,40 +92,34 @@ public enum Opcion {
 			vista.terminar();
 		}
 	};
-	
-	
-	/*********ATRIBUTOS*********/
-	
+
 	private String mensaje;
 	private static VistaTexto vista;
-	
-	
-	/********OTROS MÉTODOS********/
-	
+
 	private Opcion(String mensaje) {
 		this.mensaje = mensaje;
 	}
-	
+
 	public abstract void ejecutar();
-	
+
 	protected static void setVista(VistaTexto vista) {
 		Opcion.vista = vista;
 	}
-	
-	public static Opcion getOpcionSegunOrdinal(int ordinal) {
-		if(esOrdinalValido(ordinal)) {
+
+	public static Opcion getOpcionSegunOridnal(int ordinal) {
+		if (esOrdinalValido(ordinal))
 			return values()[ordinal];
-		} else {
-			throw new IllegalArgumentException("ERROR: Ordinal de la opción no válido.");
-		}
+		else
+			throw new IllegalArgumentException("Ordinal de la opción no válido");
 	}
-	
+
 	public static boolean esOrdinalValido(int ordinal) {
-		return (ordinal >= 0 && ordinal <= values().length -1);
+		return (ordinal >= 0 && ordinal <= values().length - 1);
 	}
-	
+
 	@Override
 	public String toString() {
 		return String.format("%d.- %s", ordinal(), mensaje);
 	}
+
 }

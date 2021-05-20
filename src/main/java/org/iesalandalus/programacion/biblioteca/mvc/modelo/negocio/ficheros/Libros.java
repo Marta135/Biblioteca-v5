@@ -14,30 +14,18 @@ import java.util.List;
 
 import javax.naming.OperationNotSupportedException;
 
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.AudioLibro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.LibroEscrito;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.ILibros;
 
-/**
- * 
- * @author Marta García
- * versión: 3v
- *
- */
-
-public class Libros implements ILibros{
-
+public class Libros implements ILibros {
 	
-	/*********ATRIBUTOS*********/
-	
-	private static final String NOMBRE_FICHERO_LIBROS = "datos/libros.dat";
+	private static final String NOMBRE_FICHERO_LIBROS = "datos" + File.separator + "libros.dat";
 	private List<Libro> coleccionLibros;
-	
-	
-	/*******CONSTRUCTORES*******/
-	
-	public Libros() throws NullPointerException, IllegalArgumentException {
+
+	public Libros() {
 		coleccionLibros = new ArrayList<>();
 	}
 	
@@ -57,16 +45,16 @@ public class Libros implements ILibros{
 		} catch (ClassNotFoundException e) {
 			System.out.println("No se ha podido encontrar la clase a leer.");
 		} catch (FileNotFoundException e) {
-			System.out.println("No se ha podido abrir el fichero libros.");
+			System.out.println("No se ha podido abrir el fichero de libros.");
 		} catch (EOFException e) {
-			System.out.println("Fichero libros leido satisfactoriamente.");
+			System.out.println("Fichero libros leído satisfactoriamente.");
 		} catch (IOException e) {
-			System.out.println("Error inesperado de Entrada/Salida");
+			System.out.println("Error inesperado de Entrada/Salida.");
 		} catch (OperationNotSupportedException e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	@Override
 	public void terminar() {
 		escribir();
@@ -75,78 +63,79 @@ public class Libros implements ILibros{
 	private void escribir() {
 		File ficheroLibros = new File(NOMBRE_FICHERO_LIBROS);
 		try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(ficheroLibros))) {
-			for (Libro libro : coleccionLibros) {
+			for (Libro libro : coleccionLibros)
 				salida.writeObject(libro);
-			}
 			System.out.println("Fichero libros escrito satisfactoriamente.");
 		} catch (FileNotFoundException e) {
-			System.out.println("No se ha podido crear el fichero libros.");
+			System.out.println("No se ha podido crear el fichero de libros.");
 		} catch (IOException e) {
-			System.out.println("Error inesperado de Entrada/Salida");
+			System.out.println("Error inesperado de Entrada/Salida.");
 		}
 	}
 	
-	public List<Libro> get() throws NullPointerException, IllegalArgumentException {
+	@Override
+	public List<Libro> get() {
 		List<Libro> librosOrdenados = copiaProfundaLibros();
 		librosOrdenados.sort(Comparator.comparing(Libro::getTitulo).thenComparing(Libro::getAutor));
 		return librosOrdenados;
 	}
-	
-	private List<Libro> copiaProfundaLibros() throws NullPointerException, IllegalArgumentException {
+
+	private List<Libro> copiaProfundaLibros() {
 		List<Libro> copiaLibros = new ArrayList<>();
 		for (Libro libro : coleccionLibros) {
 			if (libro instanceof LibroEscrito) {
 				copiaLibros.add(new LibroEscrito((LibroEscrito)libro));
-			} else if (libro instanceof AudioLibro) {
+			}
+			if (libro instanceof AudioLibro) {
 				copiaLibros.add(new AudioLibro((AudioLibro)libro));
 			}
 		}
 		return copiaLibros;
 	}
-	
+
+	@Override
 	public int getTamano() {
 		return coleccionLibros.size();
 	}
 	
-
-	/********OTROS MÉTODOS********/
-	
-	public void insertar(Libro libro) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException {
+	@Override
+	public void insertar(Libro libro) throws OperationNotSupportedException {
 		if (libro == null) {
 			throw new NullPointerException("ERROR: No se puede insertar un libro nulo.");
 		}
-		if (!coleccionLibros.contains(libro)) {
+		int indice = coleccionLibros.indexOf(libro);
+		if (indice == -1) {
 			if (libro instanceof LibroEscrito) {
-				coleccionLibros.add(new LibroEscrito((LibroEscrito) libro));
-			} else if (libro instanceof AudioLibro) {
-				coleccionLibros.add(new AudioLibro((AudioLibro) libro));
+				coleccionLibros.add(new LibroEscrito((LibroEscrito)libro));
+			}
+			if (libro instanceof AudioLibro) {
+				coleccionLibros.add(new AudioLibro((AudioLibro)libro));
 			}
 		} else {
 			throw new OperationNotSupportedException("ERROR: Ya existe un libro con ese título y autor.");
 		}
-		
 	}
-	
-	public Libro buscar(Libro libro) throws IllegalArgumentException, NullPointerException {
+
+	@Override
+	public Libro buscar(Libro libro) {
 		if (libro == null) {
 			throw new IllegalArgumentException("ERROR: No se puede buscar un libro nulo.");
 		}
 		int indice = coleccionLibros.indexOf(libro);
-		
-		Libro libroDevuelto = null;
 		if (indice == -1) {
-			libroDevuelto = null;
+			return null;
 		} else {
 			if (libro instanceof LibroEscrito) {
-				libroDevuelto = new LibroEscrito((LibroEscrito) libro);
-			} else if (libro instanceof AudioLibro) {
-				libroDevuelto = new AudioLibro((AudioLibro) libro);
+				return new LibroEscrito((LibroEscrito)coleccionLibros.get(indice));
 			}
-
-		}
-		return libroDevuelto;
+			if (libro instanceof AudioLibro) {
+				return new AudioLibro((AudioLibro)coleccionLibros.get(indice));
+			}
+		}	
+		return libro;
 	}
-	
+
+	@Override
 	public void borrar(Libro libro) throws OperationNotSupportedException {
 		if (libro == null) {
 			throw new IllegalArgumentException("ERROR: No se puede borrar un libro nulo.");
@@ -155,8 +144,8 @@ public class Libros implements ILibros{
 		if (indice == -1) {
 			throw new OperationNotSupportedException("ERROR: No existe ningún libro con ese título y autor.");
 		} else {
-			coleccionLibros.remove(indice);
+			coleccionLibros.remove(libro);
 		}
 	}
-
+	
 }

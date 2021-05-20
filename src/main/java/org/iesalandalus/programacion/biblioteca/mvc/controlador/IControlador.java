@@ -11,54 +11,44 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
 
-/**
- * 
- * @author Marta García
- * Versión: v3
- *
- */
-
 public interface IControlador {
 
 	void comenzar();
-	
+
 	void terminar();
-	
+
 	void insertar(Alumno alumno) throws OperationNotSupportedException;
-	
+
 	void insertar(Libro libro) throws OperationNotSupportedException;
-	
+
 	void prestar(Prestamo prestamo) throws OperationNotSupportedException;
-	
-	void devolver(Prestamo prestamo, LocalDate fechaDevolucion) 
-			throws OperationNotSupportedException, NullPointerException, IllegalArgumentException;
-	
+
+	void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException;
+
 	Alumno buscar(Alumno alumno);
-	
+
 	Libro buscar(Libro libro);
-	
+
 	Prestamo buscar(Prestamo prestamo);
-	
+
 	void borrar(Alumno alumno) throws OperationNotSupportedException;
-	
+
 	void borrar(Libro libro) throws OperationNotSupportedException;
-	
+
 	void borrar(Prestamo prestamo) throws OperationNotSupportedException;
-	
+
 	List<Alumno> getAlumnos();
-	
+
 	List<Libro> getLibros();
-	
+
 	List<Prestamo> getPrestamos();
-	
+
 	List<Prestamo> getPrestamos(Alumno alumno);
-	
+
 	List<Prestamo> getPrestamos(Libro libro);
-	
+
 	List<Prestamo> getPrestamos(LocalDate fechaPrestamo);
-	
+
 	Map<Curso, Integer> getEstadisticaMensualPorCurso(LocalDate fecha);
-
-
 
 }

@@ -3,80 +3,60 @@ package org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * 
- * @author Marta García
- * versión: v3
- *
- */
-
 public abstract class Libro implements Serializable {
-
-	/*********ATRIBUTOS*********/
 	
-	private static final long serialVersionUID = 1L;
 	protected String titulo;
 	protected String autor;
 	
-	
-	
-	/*******CONSTRUCTORES*******/
-	
-	public Libro (String titulo, String autor) throws NullPointerException, IllegalArgumentException {
+	public Libro(String titulo, String autor) {
 		setTitulo(titulo);
 		setAutor(autor);
 	}
 	
-	public Libro (Libro copiaLibro) {
-		if (copiaLibro == null) {
+	public Libro(Libro copiaLibro) {
+		if (copiaLibro==null) {
 			throw new NullPointerException("ERROR: No es posible copiar un libro nulo.");
 		}
-		titulo = copiaLibro.getTitulo();
-		autor = copiaLibro.getAutor();
+		setTitulo(copiaLibro.titulo);
+		setAutor(copiaLibro.autor);
 	}
 	
-	public static Libro getLibroFicticio(String titulo, String autor) throws NullPointerException, IllegalArgumentException {
-		return new LibroEscrito(titulo, autor, 300);
+	public static Libro getLibroFicticio(String titulo, String autor) {
+		return new LibroEscrito(titulo, autor, 10);
 	}
-	
+
 	public abstract float getPuntos();
 	
 	public abstract String getNombreClase();
 	
-	/*********GETTERS Y SETTERS**********/
-	
 	public String getTitulo() {
 		return titulo;
 	}
-	
+
 	protected void setTitulo(String titulo) {
-		if(titulo == null) {
+		if (titulo==null) {
 			throw new NullPointerException("ERROR: El título no puede ser nulo.");
 		}
-		if (titulo.trim().isEmpty()) {
+		if (titulo.trim().equals("")) {
 			throw new IllegalArgumentException("ERROR: El título no puede estar vacío.");
 		}
 		this.titulo = titulo;
 	}
-	
+
 	public String getAutor() {
 		return autor;
 	}
-	
+
 	protected void setAutor(String autor) {
-		if(autor == null) {
+		if (autor==null) {
 			throw new NullPointerException("ERROR: El autor no puede ser nulo.");
 		}
-		if (autor.trim().isEmpty()) {
+		if (autor.trim().equals("")) {
 			throw new IllegalArgumentException("ERROR: El autor no puede estar vacío.");
 		}
 		this.autor = autor;
 	}
-	
-	
-	
-	/********OTROS MÉTODOS********/
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(autor, titulo);
@@ -98,5 +78,5 @@ public abstract class Libro implements Serializable {
 	public String toString() {
 		return String.format("título=%s, autor=%s", titulo, autor);
 	}
-
+	
 }

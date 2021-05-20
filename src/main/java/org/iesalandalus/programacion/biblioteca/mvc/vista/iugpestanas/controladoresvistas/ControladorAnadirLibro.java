@@ -1,5 +1,7 @@
 package org.iesalandalus.programacion.biblioteca.mvc.vista.iugpestanas.controladoresvistas;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.iesalandalus.programacion.biblioteca.mvc.controlador.IControlador;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.AudioLibro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
@@ -43,6 +45,7 @@ public class ControladorAnadirLibro {
     	tgTipoLibro.selectedToggleProperty().addListener((ob, ov, nv) -> habilitaSeleccion());
     	tfNumPaginas.textProperty().addListener((ob, ov, nv) -> compruebaCampoTexto(ER_CIFRAS, tfNumPaginas));
     	tfDuracion.textProperty().addListener((ob, ov, nv) -> compruebaCampoTexto(ER_CIFRAS, tfDuracion));
+    	
     }
    
 	public void setControladorMVC(IControlador controladorMVC) {
@@ -78,15 +81,14 @@ public class ControladorAnadirLibro {
 		tfAutor.setText("");
 		compruebaCampoTexto(ER_OBLIGATORIO, tfAutor);
 		tgTipoLibro.selectToggle(rbLibroEscrito);
-		//rbLibroEscrito.setSelected(true);
 		tfNumPaginas.setText("");
-		compruebaCampoTexto(ER_CIFRAS, tfNumPaginas);
-		//rbAudioLibro.setSelected(false);
+		//compruebaCampoTexto(ER_CIFRAS, tfNumPaginas);
 		tfDuracion.setText("");
-		compruebaCampoTexto(ER_CIFRAS, tfDuracion);
+		//compruebaCampoTexto(ER_CIFRAS, tfDuracion);
 	}
 	
 	private void compruebaCampoTexto(String er, TextField campoTexto) {	
+		
 		String texto = campoTexto.getText();
 		if (texto.matches(er)) {
 			campoTexto.setStyle("-fx-border-color: green; -fx-border-radius: 5;");
@@ -107,10 +109,12 @@ public class ControladorAnadirLibro {
 		}
 	}
 	
-	private Libro getLibro() {
+	private Libro getLibro() throws OperationNotSupportedException {
+		
 		String titulo = tfTitulo.getText();
 		String autor = tfAutor.getText();
 		Libro libro = null;
+		
 		RadioButton seleccionado = (RadioButton) tgTipoLibro.getSelectedToggle();
 		if (seleccionado == rbLibroEscrito) {
 			int numPaginas = Integer.parseInt(tfNumPaginas.getText());

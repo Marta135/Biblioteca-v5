@@ -7,105 +7,96 @@ import java.util.Map;
 import javax.naming.OperationNotSupportedException;
 
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Alumno;
-import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
-import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.IAlumnos;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.ILibros;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.IPrestamos;
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
 
-/**
- * 
- * @author Marta García
- * versión: v3
- *
- */
-
-public class Modelo implements IModelo{
-
-	/*********ATRIBUTOS*********/
+public class Modelo implements IModelo {
 	
 	private IAlumnos alumnos;
-	private ILibros libros;
 	private IPrestamos prestamos;
-	
-	
-	/*******CONSTRUCTOR*******/
-	
-	public Modelo(IFuenteDatos fuenteDatos) {
-		alumnos = fuenteDatos.crearAlumnos();
-		libros = fuenteDatos.crearLibros();
-		prestamos = fuenteDatos.crearPrestamos();
-	}
-	
+	private ILibros libros;
 
-	/********MÉTODOS********/
-	
-	@Override 
+	public Modelo(IFuenteDatos iFuenteDatos) {
+		alumnos = iFuenteDatos.crearAlumnos();
+		prestamos = iFuenteDatos.crearPrestamos();
+		libros = iFuenteDatos.crearLibros();
+	}
+
+	@Override
 	public void comenzar() {
 		alumnos.comenzar();
 		libros.comenzar();
 		prestamos.comenzar();
 	}
-	
-	@Override 
+
+	@Override
 	public void terminar() {
 		alumnos.terminar();
 		libros.terminar();
 		prestamos.terminar();
 	}
 	
-	@Override 
-	public void insertar(Alumno alumno) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException {
+	@Override
+	public void insertar(Alumno alumno) throws OperationNotSupportedException {
 		alumnos.insertar(alumno);
 	}
-	
-	@Override 
-	public void insertar(Libro libro) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException  {
+
+	@Override
+	public void insertar(Libro libro) throws OperationNotSupportedException {
 		libros.insertar(libro);
 	}
-	
-	@Override 
-	public void prestar(Prestamo prestamo) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException  {
-		if (prestamo ==  null) {
+
+	@Override
+	public void prestar(Prestamo prestamo) throws OperationNotSupportedException {
+		if (prestamo==null) {
 			throw new NullPointerException("ERROR: No se puede prestar un préstamo nulo.");
 		}
 		Alumno alumno = alumnos.buscar(prestamo.getAlumno());
-		if (alumno == null) {
+		if (alumno==null) {
 			throw new OperationNotSupportedException("ERROR: No existe el alumno del préstamo.");
 		}
 		Libro libro = libros.buscar(prestamo.getLibro());
-		if (libro == null) {
+		if (libro==null) {
 			throw new OperationNotSupportedException("ERROR: No existe el libro del préstamo.");
 		}
 		prestamos.prestar(new Prestamo(alumno, libro, prestamo.getFechaPrestamo()));
 	}
-	
-	@Override 
-	public void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException {
+
+	@Override
+	public void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException {
+		if (prestamo==null) {
+			throw new NullPointerException("ERROR: No se puede devolver un préstamo nulo.");
+		}
+		if (fechaDevolucion==null) {
+			throw new NullPointerException("ERROR: La fecha de devolución del prestamo no puede ser nula.");
+		}
 		prestamo = prestamos.buscar(prestamo);
-		if (prestamo == null) {
+		if (prestamo==null) {
 			throw new OperationNotSupportedException("ERROR: No se puede devolver un préstamo no prestado.");
 		}
 		prestamos.devolver(prestamo, fechaDevolucion);
 	}
-	
-	@Override 
-	public Alumno buscar(Alumno alumno) throws NullPointerException, IllegalArgumentException {
+
+	@Override
+	public Alumno buscar(Alumno alumno) {
 		return alumnos.buscar(alumno);
 	}
-	
-	@Override 
-	public Libro buscar(Libro libro) throws NullPointerException, IllegalArgumentException {
+
+	@Override
+	public Libro buscar(Libro libro) {
 		return libros.buscar(libro);
 	}
-	
-	@Override 
-	public Prestamo buscar(Prestamo prestamo) throws NullPointerException, IllegalArgumentException {
+
+	@Override
+	public Prestamo buscar(Prestamo prestamo) {
 		return prestamos.buscar(prestamo);
 	}
-	
-	@Override 
+
+	@Override
 	public void borrar(Alumno alumno) throws OperationNotSupportedException {
 		List<Prestamo> prestamosAlumno = prestamos.get(alumno);
 		for (Prestamo prestamo : prestamosAlumno) {
@@ -113,8 +104,8 @@ public class Modelo implements IModelo{
 		}
 		alumnos.borrar(alumno);
 	}
-	
-	@Override 
+
+	@Override
 	public void borrar(Libro libro) throws OperationNotSupportedException {
 		List<Prestamo> prestamosLibro = prestamos.get(libro);
 		for (Prestamo prestamo : prestamosLibro) {
@@ -122,45 +113,45 @@ public class Modelo implements IModelo{
 		}
 		libros.borrar(libro);
 	}
-	
-	@Override 
+
+	@Override
 	public void borrar(Prestamo prestamo) throws OperationNotSupportedException {
 		prestamos.borrar(prestamo);
 	}
-	
-	@Override 
+
+	@Override
 	public List<Alumno> getAlumnos() {
 		return alumnos.get();
 	}
-	
-	@Override 
+
+	@Override
 	public List<Libro> getLibros() {
 		return libros.get();
 	}
-	
-	@Override 
+
+	@Override
 	public List<Prestamo> getPrestamos() {
 		return prestamos.get();
 	}
-	
-	@Override 
+
+	@Override
 	public List<Prestamo> getPrestamos(Alumno alumno) {
 		return prestamos.get(alumno);
 	}
-	
-	@Override 
+
+	@Override
 	public List<Prestamo> getPrestamos(Libro libro) {
 		return prestamos.get(libro);
 	}
-	
-	@Override 
+
+	@Override
 	public List<Prestamo> getPrestamos(LocalDate fechaPrestamo) {
 		return prestamos.get(fechaPrestamo);
 	}
 	
-	@Override 
+	@Override
 	public Map<Curso, Integer> getEstadisticaMensualPorCurso(LocalDate fecha) {
 		return prestamos.getEstadisticaMensualPorCurso(fecha);
 	}
-	
+
 }

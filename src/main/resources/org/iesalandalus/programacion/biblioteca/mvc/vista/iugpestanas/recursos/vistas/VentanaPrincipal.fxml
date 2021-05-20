@@ -35,9 +35,9 @@
                         </Label>
                         <TableView fx:id="tvAlumnos" prefHeight="200.0" prefWidth="200.0">
                           <columns>
-                            <TableColumn fx:id="tcNombreAlumno" prefWidth="285.0" text="Nombre" />
-                            <TableColumn fx:id="tcCorreo" minWidth="0.0" prefWidth="230.0" text="Correo" />
-                              <TableColumn fx:id="tcCurso" minWidth="0.0" prefWidth="113.0" text="Curso" />
+                            <TableColumn fx:id="tcNombreAlumno" prefWidth="266.0" text="Nombre" />
+                            <TableColumn fx:id="tcCorreo" minWidth="0.0" prefWidth="237.0" text="Correo" />
+                              <TableColumn fx:id="tcCurso" minWidth="0.0" prefWidth="126.0" text="Curso" />
                           </columns>
                            <VBox.margin>
                               <Insets />
@@ -92,11 +92,11 @@
                         </Label>
                         <TableView fx:id="tvLibros" prefHeight="200.0" prefWidth="200.0">
                           <columns>
-                            <TableColumn fx:id="tcTitulo" prefWidth="186.0" text="Título" />
-                            <TableColumn fx:id="tcAutor" prefWidth="160.0" text="Autor" />
-                              <TableColumn fx:id="tcTipo" prefWidth="113.0" text="Típo de Libro" />
-                              <TableColumn fx:id="tcPaginas" prefWidth="86.0" text="Páginas" />
-                              <TableColumn fx:id="tcDuracion" prefWidth="84.0" text="Duración" />
+                            <TableColumn fx:id="tcTitulo" prefWidth="208.0" text="Título" />
+                            <TableColumn fx:id="tcAutor" prefWidth="170.0" text="Autor" />
+                              <TableColumn fx:id="tcTipo" prefWidth="110.0" text="Típo de Libro" />
+                              <TableColumn fx:id="tcPaginas" prefWidth="70.0" text="Páginas" />
+                              <TableColumn fx:id="tcDuracion" prefWidth="71.0" text="Duración" />
                           </columns>
                            <VBox.margin>
                               <Insets />

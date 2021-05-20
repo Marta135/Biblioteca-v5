@@ -5,15 +5,8 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.IAlumnos;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.ILibros;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.IPrestamos;
 
-/**
- * 
- * @author Marta García
- * versión: v3
- *
- */
-
 public class FactoriaFuenteDatosFicheros implements IFuenteDatos {
-
+	
 	@Override
 	public IAlumnos crearAlumnos() {
 		return new Alumnos();
@@ -28,4 +21,5 @@ public class FactoriaFuenteDatosFicheros implements IFuenteDatos {
 	public IPrestamos crearPrestamos() {
 		return new Prestamos();
 	}
+	
 }

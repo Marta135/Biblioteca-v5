@@ -17,28 +17,15 @@ import javax.naming.OperationNotSupportedException;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Alumno;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.IAlumnos;
 
-/**
- * 
- * @author Marta García
- * versión: 3v
- *
- */
-
 public class Alumnos implements IAlumnos {
 
-	
-	/*********ATRIBUTOS*********/
-	
-	private static final String NOMBRE_FICHERO_ALUMNOS = "datos/alumnos.dat";
+	private static final String NOMBRE_FICHERO_ALUMNOS = "datos" + File.separator + "alumnos.dat";
 	private List<Alumno> coleccionAlumnos;
-	
-		
-	/*******CONSTRUCTORES*******/
 
-	public Alumnos () throws NullPointerException, IllegalArgumentException {
+	public Alumnos() {
 		coleccionAlumnos = new ArrayList<>();
 	}
-
+	
 	@Override
 	public void comenzar() {
 		leer();
@@ -55,16 +42,16 @@ public class Alumnos implements IAlumnos {
 		} catch (ClassNotFoundException e) {
 			System.out.println("No se ha podido encontrar la clase a leer.");
 		} catch (FileNotFoundException e) {
-			System.out.println("No se ha podido abrir el fichero alumnos.");
+			System.out.println("No se ha podido abrir el fichero de alumnos.");
 		} catch (EOFException e) {
-			System.out.println("Fichero alumnos leido satisfactoriamente.");
+			System.out.println("Fichero alumnos leído satisfactoriamente.");
 		} catch (IOException e) {
-			System.out.println("Error inesperado de Entrada/Salida");
+			System.out.println("Error inesperado de Entrada/Salida.");
 		} catch (OperationNotSupportedException e) {
 			System.out.println(e.getMessage());
 		}
 	}
-	
+
 	@Override
 	public void terminar() {
 		escribir();
@@ -73,39 +60,38 @@ public class Alumnos implements IAlumnos {
 	private void escribir() {
 		File ficheroAlumnos = new File(NOMBRE_FICHERO_ALUMNOS);
 		try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(ficheroAlumnos))) {
-			for (Alumno alumno : coleccionAlumnos) {
+			for (Alumno alumno : coleccionAlumnos)
 				salida.writeObject(alumno);
-			}
 			System.out.println("Fichero alumnos escrito satisfactoriamente.");
 		} catch (FileNotFoundException e) {
-			System.out.println("No se ha podido crear el fichero alumnos.");
+			System.out.println("No se ha podido crear el fichero de alumnos.");
 		} catch (IOException e) {
-			System.out.println("Error inesperado de Entrada/Salida");
+			System.out.println("Error inesperado de Entrada/Salida.");
 		}
 	}
 	
-	public List<Alumno> get() throws NullPointerException, IllegalArgumentException {
+	@Override
+	public List<Alumno> get() {
 		List<Alumno> alumnosOrdenados = copiaProfundaAlumnos();
-		alumnosOrdenados.sort(Comparator.comparing(Alumno::getCorreo));
+		alumnosOrdenados.sort(Comparator.comparing(Alumno::getNombre));
 		return alumnosOrdenados;
 	}
-	
-	private List<Alumno> copiaProfundaAlumnos() throws NullPointerException, IllegalArgumentException {
+
+	private List<Alumno> copiaProfundaAlumnos() {
 		List<Alumno> copiaAlumnos = new ArrayList<>();
 		for (Alumno alumno : coleccionAlumnos) {
 			copiaAlumnos.add(new Alumno(alumno));
 		}
 		return copiaAlumnos;
 	}
-	
+
+	@Override
 	public int getTamano() {
 		return coleccionAlumnos.size();
 	}
-	
-		
-	/********OTROS MÉTODOS********/
-	
-	public void insertar(Alumno alumno) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException {
+
+	@Override
+	public void insertar(Alumno alumno) throws OperationNotSupportedException {
 		if (alumno == null) {
 			throw new NullPointerException("ERROR: No se puede insertar un alumno nulo.");
 		}
@@ -114,10 +100,11 @@ public class Alumnos implements IAlumnos {
 			coleccionAlumnos.add(new Alumno(alumno));
 		} else {
 			throw new OperationNotSupportedException("ERROR: Ya existe un alumno con ese correo.");
-		}
+		}	
 	}
 
-	public Alumno buscar(Alumno alumno) throws NullPointerException, IllegalArgumentException {
+	@Override
+	public Alumno buscar(Alumno alumno) {
 		if (alumno == null) {
 			throw new IllegalArgumentException("ERROR: No se puede buscar un alumno nulo.");
 		}
@@ -128,7 +115,8 @@ public class Alumnos implements IAlumnos {
 			return new Alumno(coleccionAlumnos.get(indice));
 		}
 	}
-	
+
+	@Override
 	public void borrar(Alumno alumno) throws OperationNotSupportedException {
 		if (alumno == null) {
 			throw new IllegalArgumentException("ERROR: No se puede borrar un alumno nulo.");
@@ -137,8 +125,8 @@ public class Alumnos implements IAlumnos {
 		if (indice == -1) {
 			throw new OperationNotSupportedException("ERROR: No existe ningún alumno con ese correo.");
 		} else {
-			coleccionAlumnos.remove(indice);
+			coleccionAlumnos.remove(alumno);
 		}
 	}
-	
+
 }

@@ -13,23 +13,11 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
 import org.iesalandalus.programacion.biblioteca.mvc.vista.IVista;
 
-/**
- * 
- * @author Marta García
- * Versión: v3
- *
- */
+public class Controlador implements IControlador {
 
-public class Controlador  implements IControlador{
-
-	/*********ATRIBUTOS*********/
-	
 	private IVista vista;
 	private IModelo modelo;
-	
-	
-	/*******CONSTRUCTOR*******/
-	
+
 	public Controlador(IModelo modelo, IVista vista) {
 		if (modelo == null) {
 			throw new IllegalArgumentException("ERROR: El modelo no puede ser nulo.");
@@ -37,108 +25,103 @@ public class Controlador  implements IControlador{
 		if (vista == null) {
 			throw new IllegalArgumentException("ERROR: La vista no puede ser nula.");
 		}
-		
 		this.modelo = modelo;
 		this.vista = vista;
 		this.vista.setControlador(this);
 	}
-	
-	
-	/********MÉTODOS********/
-	
+
 	@Override
 	public void comenzar() {
 		modelo.comenzar();
 		vista.comenzar();
 	}
-	
+
 	@Override
 	public void terminar() {
 		modelo.terminar();
-		System.out.println("¡Hasta pronto!");
+		System.out.println("Que descanses!!!");
 	}
-	
+
 	@Override
 	public void insertar(Alumno alumno) throws OperationNotSupportedException {
 		modelo.insertar(alumno);
 	}
-	
+
 	@Override
 	public void insertar(Libro libro) throws OperationNotSupportedException {
 		modelo.insertar(libro);
 	}
-	
+
 	@Override
 	public void prestar(Prestamo prestamo) throws OperationNotSupportedException {
 		modelo.prestar(prestamo);
 	}
-	
-	//
+
 	@Override
-	public void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException, NullPointerException, IllegalArgumentException {
+	public void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException {
 		modelo.devolver(prestamo, fechaDevolucion);
 	}
-	
+
 	@Override
 	public Alumno buscar(Alumno alumno) {
 		return modelo.buscar(alumno);
 	}
-	
+
 	@Override
 	public Libro buscar(Libro libro) {
 		return modelo.buscar(libro);
 	}
-	
+
 	@Override
 	public Prestamo buscar(Prestamo prestamo) {
 		return modelo.buscar(prestamo);
 	}
-	
+
 	@Override
 	public void borrar(Alumno alumno) throws OperationNotSupportedException {
 		modelo.borrar(alumno);
 	}
-	
+
 	@Override
 	public void borrar(Libro libro) throws OperationNotSupportedException {
 		modelo.borrar(libro);
 	}
-	
+
 	@Override
 	public void borrar(Prestamo prestamo) throws OperationNotSupportedException {
 		modelo.borrar(prestamo);
 	}
-	
+
 	@Override
 	public List<Alumno> getAlumnos() {
 		return modelo.getAlumnos();
 	}
-	
+
 	@Override
 	public List<Libro> getLibros() {
 		return modelo.getLibros();
 	}
-	
+
 	@Override
 	public List<Prestamo> getPrestamos() {
 		return modelo.getPrestamos();
 	}
-	
+
 	@Override
 	public List<Prestamo> getPrestamos(Alumno alumno) {
 		return modelo.getPrestamos(alumno);
 	}
-	
+
 	@Override
 	public List<Prestamo> getPrestamos(Libro libro) {
 		return modelo.getPrestamos(libro);
 	}
-	
+
 	@Override
 	public List<Prestamo> getPrestamos(LocalDate fechaPrestamo) {
 		return modelo.getPrestamos(fechaPrestamo);
 	}
-	
+
 	@Override
 	public Map<Curso, Integer> getEstadisticaMensualPorCurso(LocalDate fecha) {
 		return modelo.getEstadisticaMensualPorCurso(fecha);

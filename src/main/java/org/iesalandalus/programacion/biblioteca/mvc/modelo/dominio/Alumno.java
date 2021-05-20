@@ -3,72 +3,65 @@ package org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio;
 import java.io.Serializable;
 import java.util.Objects;
 
-/**
- * 
- * @author Marta García
- * versión: 3v
- *
- */
-
 public class Alumno implements Serializable {
 
-	
-	/*********ATRIBUTOS*********/
-	
-	private static final long serialVersionUID = 1L;
-	private static final String ER_NOMBRE = "[a-zA-ZÁáÉéÍíÓóÚúÑñ]+[\\s]+[a-zA-ZÁáÉéÍíÓóÚúÑñ\\s]*";
-	private static final String ER_CORREO = ".+@[a-zA-Z]+\\.[a-zA-Z]+";
+	private static final String ER_NOMBRE = "[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+\s{1}[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+";
+	private static final String ER_CORREO = "[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)+"; 
 	private String nombre;
 	private String correo;
 	private Curso curso;
 	
-	
-	/*******CONSTRUCTORES*******/
-	
-	public Alumno (String nombre, String correo, Curso curso) throws NullPointerException, IllegalArgumentException {
+	public Alumno(String nombre, String correo, Curso curso) {
 		setNombre(nombre);
-		setCorreo (correo);
-		setCurso (curso);
+		setCorreo(correo);
+		setCurso(curso);
 	}
 	
-	public Alumno (Alumno copiaAlumno) throws NullPointerException, IllegalArgumentException {
-		if(copiaAlumno == null) {
+	public Alumno(Alumno copiaAlumno)
+	{
+		if (copiaAlumno==null)
+		{
 			throw new NullPointerException("ERROR: No es posible copiar un alumno nulo.");
 		}
 		setNombre(copiaAlumno.getNombre());
 		setCorreo(copiaAlumno.getCorreo());
 		setCurso(copiaAlumno.getCurso());
 	}
-
-	public static Alumno getAlumnoFicticio (String correo) throws NullPointerException, IllegalArgumentException {
-		return new Alumno("Marta García", correo, Curso.CUARTO);
+	
+	public static Alumno getAlumnoFicticio(String correo)
+	{
+		return new Alumno("Marta García Ortega", correo, Curso.CUARTO);
 	}
-	
-	/*********GETTERS Y SETTERS**********/
-	
+
 	public String getNombre() {
-		return nombre;
+		return formateaNombre(nombre);
 	}
 
 	private void setNombre(String nombre) {
-		if(nombre == null) {
+		if (nombre==null)
+		{
 			throw new NullPointerException("ERROR: El nombre no puede ser nulo.");
 		}
-		if(!nombre.matches(ER_NOMBRE)) {
+		if (!formateaNombre(nombre).matches(ER_NOMBRE))
+		{
 			throw new IllegalArgumentException("ERROR: El nombre no tiene un formato válido.");
 		}
-		this.nombre = formateaNombre(nombre);
+		this.nombre = nombre;
 	}
 
-	private String formateaNombre(String nombre) {
-		String[] palabras = nombre.trim().split("\\s+");
-		StringBuilder nombreFormateado = new StringBuilder();
-		for (String palabra : palabras) {
-			nombreFormateado.append(palabra.substring(0, 1).toUpperCase())
-			.append(palabra.substring(1).toLowerCase())
-			.append(" ");
+	public static String formateaNombre(String nombre)
+	{
+		String nombreFormateado = "";
+		nombre = nombre.replaceAll("( +)"," ").trim();
+		if (!nombre.equals(""))
+		{
+			String[] words = nombre.split(" ");
+			for (int i=0; i<words.length; ++i)
+			{
+				nombreFormateado += words[i].substring(0,1).toUpperCase()+words[i].substring(1).toLowerCase()+" ";
+			}
 		}
-		return nombreFormateado.toString().trim();
+		return nombreFormateado.trim();	
 	}
 	
 	public String getCorreo() {
@@ -76,22 +69,27 @@ public class Alumno implements Serializable {
 	}
 
 	private void setCorreo(String correo) {
-		if(correo == null) {
+		if (correo==null)
+		{
 			throw new NullPointerException("ERROR: El correo no puede ser nulo.");
 		}
-		if(!correo.matches(ER_CORREO)) {
+		if (!correo.matches(ER_CORREO))
+		{
 			throw new IllegalArgumentException("ERROR: El formato del correo no es válido.");
 		}
 		this.correo = correo;
 	}
 
-	private String getIniciales() {
-		String[] palabras = nombre.trim().split("\\s+");
-		StringBuilder iniciales = new StringBuilder();
-		for (String palabra : palabras) {
-			iniciales.append(palabra.charAt(0));
+	private String getIniciales()
+	{
+		String iniciales = "";
+		nombre = nombre.replaceAll("( +)"," ").trim();
+		String[] words = nombre.split(" ");
+		for (int i=0; i<words.length; ++i)
+		{
+			iniciales += words[i].substring(0,1).toUpperCase();
 		}
-		return iniciales.toString().toUpperCase();
+		return iniciales;
 	}
 	
 	public Curso getCurso() {
@@ -99,15 +97,13 @@ public class Alumno implements Serializable {
 	}
 
 	public void setCurso(Curso curso) {
-		if(curso == null) {
+		if (curso==null)
+		{
 			throw new NullPointerException("ERROR: El curso no puede ser nulo.");
 		}
 		this.curso = curso;
 	}
 
-	
-	/*********OTROS MÉTODOS**********/
-	
 	@Override
 	public int hashCode() {
 		return Objects.hash(correo);
@@ -124,11 +120,11 @@ public class Alumno implements Serializable {
 		Alumno other = (Alumno) obj;
 		return Objects.equals(correo, other.correo);
 	}
-	
+
 	@Override
 	public String toString() {
-		return String.format("nombre=%s (%s), correo=%s, curso=%s", nombre, getIniciales(), correo, curso);
+		return String.format("nombre=%s, correo=%s, curso=%s", formateaNombre(nombre)+" ("+getIniciales()+(")"), correo, curso);
 	}
-
+	
 	
 }

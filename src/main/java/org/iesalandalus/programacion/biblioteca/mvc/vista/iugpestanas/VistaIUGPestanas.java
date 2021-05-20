@@ -13,12 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-/**
- * 
- * @author Marta García
- * versión: Biblioteca_v4
- *
- */
 public class VistaIUGPestanas extends Application implements IVista {
 
 	private static IControlador controladorMVC = null;

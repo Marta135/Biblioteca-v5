@@ -11,39 +11,30 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
 
-/**
- * 
- * @author Marta García
- * versión: v3
- *
- */
-
 public interface IPrestamos {
 
 	void comenzar();
 	
 	void terminar();
 	
-	List<Prestamo> get() throws NullPointerException, IllegalArgumentException;
-	
+	List<Prestamo> get();
+
 	int getTamano();
-	
-	List<Prestamo> get(Alumno alumno) throws NullPointerException, IllegalArgumentException;
-	
-	List<Prestamo> get(Libro libro) throws NullPointerException, IllegalArgumentException;
-	
-	List<Prestamo> get(LocalDate fechaPrestamo) throws NullPointerException, IllegalArgumentException;
-	
+
+	List<Prestamo> get(Alumno alumno);
+
+	List<Prestamo> get(Libro libro);
+
+	List<Prestamo> get(LocalDate fechaPrestamo);
+
 	Map<Curso, Integer> getEstadisticaMensualPorCurso(LocalDate fecha);
-	
-	void prestar(Prestamo prestamo) 
-			throws OperationNotSupportedException, NullPointerException, IllegalArgumentException;
-	
-	void devolver(Prestamo prestamo, LocalDate fechaDevolucion) 
-			throws OperationNotSupportedException, NullPointerException, IllegalArgumentException;
-	
-	Prestamo buscar(Prestamo prestamo) throws NullPointerException, IllegalArgumentException;
-	
+
+	void prestar(Prestamo prestamo) throws OperationNotSupportedException;
+
+	void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException;
+
+	Prestamo buscar(Prestamo prestamo);
+
 	void borrar(Prestamo prestamo) throws OperationNotSupportedException;
-	
+
 }
