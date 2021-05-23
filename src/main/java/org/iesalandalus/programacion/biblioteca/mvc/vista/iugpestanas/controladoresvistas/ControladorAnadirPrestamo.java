@@ -18,12 +18,13 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
-public class ControladorRealizarPrestamo {
+public class ControladorAnadirPrestamo {
 
 	private IControlador controladorMVC;
 	private ControladorVentanaPrincipal padre;
 	private ObservableList<Alumno> alumnos = FXCollections.observableArrayList();
 	private ObservableList<Libro> libros = FXCollections.observableArrayList();
+	private boolean alumnosBool, librosBool;
 	
 	@FXML private ListView<Alumno> lvAlumno;
 	@FXML private ListView<Libro> lvLibro;
@@ -31,7 +32,7 @@ public class ControladorRealizarPrestamo {
     @FXML private Button btAceptar;
     @FXML private Button btCancelar;
 
-   	
+
     private class CeldaAlumno extends ListCell<Alumno> {
     	@Override
     	public void updateItem(Alumno alumno, boolean vacio) {
@@ -39,7 +40,7 @@ public class ControladorRealizarPrestamo {
     		if (vacio) {
     			setText("");
     		} else {
-    			setText(alumno.getNombre() + ", " + alumno.getCorreo());
+    			setText(alumno.getNombre());
     		}
     	}
     }
@@ -51,7 +52,7 @@ public class ControladorRealizarPrestamo {
     		if (vacio) {
     			setText("");
     		} else {
-    			setText(libro.getTitulo() + ", " + libro.getAutor());
+    			setText(libro.getTitulo());
     		}
     	}
     }
@@ -83,34 +84,54 @@ public class ControladorRealizarPrestamo {
 	public void inicializa() {
 		lvAlumno.getSelectionModel().clearSelection();
 		lvLibro.getSelectionModel().clearSelection();
+		lvAlumno.setItems(alumnos);
+		lvLibro.setItems(libros);
 		dpFechaPrestamo.setValue(null);
 	}
+
+	public void setAlumnosBool(boolean trigger) {
+		alumnosBool = trigger;
+	}
 	
-	@FXML
-	void cancelar(ActionEvent event) {
-		((Stage) btCancelar.getScene().getWindow()).close();
+	public void setLibrosBool(boolean trigger) {
+		librosBool = trigger;
 	}
 	
 	@FXML
-	void realizarPrestamo(ActionEvent event) {
-		Alumno alumno = lvAlumno.getSelectionModel().getSelectedItem();
-		Libro libro = lvLibro.getSelectionModel().getSelectedItem();
-		LocalDate fechaPrestamo = dpFechaPrestamo.getValue();
-		
+	void anadirPrestamo(ActionEvent event) {
+		Prestamo prestamo = null;
 		try {
-			Prestamo prestamo = new Prestamo(alumno, libro, fechaPrestamo);
+			prestamo = getPrestamo();
 			controladorMVC.prestar(prestamo);
 			padre.actualizaPrestamos();
-			padre.actualizaAlumnos();
-			padre.actualizaLibros();
+			if (alumnosBool) {
+				padre.mostrarPrestamosAlumno(prestamo.getAlumno());
+				alumnosBool = false;
+			}
+			if (librosBool) {
+				padre.mostrarPrestamosLibro(prestamo.getLibro());
+				librosBool = false;
+			}
 			Stage propietario = ((Stage) btAceptar.getScene().getWindow());
 			Dialogos.mostrarDialogoInformacion("Realizar Préstamo", "Préstamo realizado correctamente", propietario);
 		} catch (Exception e) {
 			Dialogos.mostrarDialogoError("Realizar Préstamo", e.getMessage());
 		}
     }
+	
+	@FXML
+	void cancelar(ActionEvent event) {
+		((Stage) btCancelar.getScene().getWindow()).close();
+	}
+	
+	private Prestamo getPrestamo() {
+		Alumno alumno = lvAlumno.getSelectionModel().getSelectedItem();
+		Libro libro = lvLibro.getSelectionModel().getSelectedItem();
+		LocalDate fechaPrestamo = dpFechaPrestamo.getValue();
+		return new Prestamo(alumno, libro, fechaPrestamo);
+	}
+	
 
-		
 		
 
 }

@@ -33,7 +33,7 @@ public class VistaIUGPestanas extends Application implements IVista {
 	}
 
 	@Override
-	public void start(Stage escenarioPrincipal) throws Exception {
+	public void start(Stage escenarioPrincipal) {
 		try {
 			FXMLLoader cargadorVentanaPrincipal = new FXMLLoader(
 					LocalizadorRecursos.class.getResource("vistas/VentanaPrincipal.fxml"));
@@ -46,7 +46,7 @@ public class VistaIUGPestanas extends Application implements IVista {
 			
 			Scene escena = new Scene(raiz);
 			escenarioPrincipal.setOnCloseRequest(e -> confirmarSalida(escenarioPrincipal, e));
-			escenarioPrincipal.setTitle("Aplicación para la gestión de la Biblioteca");
+			escenarioPrincipal.setTitle("Gestión de la Biblioteca");
 			escenarioPrincipal.setScene(escena);
 			escenarioPrincipal.setResizable(false);
 			escenarioPrincipal.show();			

@@ -12,50 +12,42 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
 public class ControladorAnadirLibro {
-
-	private static final String ER_OBLIGATORIO = ".+";
-	private static final String ER_CIFRAS = "\\d+";
 	
 	private IControlador controladorMVC;
 	private ObservableList<Libro> libros;
 	
+    @FXML private ComboBox<String> cbTipoLibro;
 	@FXML private TextField tfTitulo;
 	@FXML private TextField tfAutor;
-    @FXML private RadioButton rbLibroEscrito;
-    @FXML private TextField tfNumPaginas;
-    @FXML private RadioButton rbAudioLibro;
-    @FXML private TextField tfDuracion;
+	@FXML private TextField tfPaginaDuracion;
+	@FXML private Label lbPaginaDuracion;
     @FXML private Button btAnadir;
     @FXML private Button btCancelar;
 
-    private ToggleGroup tgTipoLibro = new ToggleGroup();
-    
     @FXML
     private void initialize() {
-    	tfTitulo.textProperty().addListener((ob, ov, nv) -> compruebaCampoTexto(ER_OBLIGATORIO, tfTitulo));
-    	tfAutor.textProperty().addListener((ob, ov, nv) -> compruebaCampoTexto(ER_OBLIGATORIO, tfAutor));
-    	rbLibroEscrito.setToggleGroup(tgTipoLibro);
-    	rbAudioLibro.setToggleGroup(tgTipoLibro);
-    	tgTipoLibro.selectedToggleProperty().addListener((ob, ov, nv) -> habilitaSeleccion());
-    	tfNumPaginas.textProperty().addListener((ob, ov, nv) -> compruebaCampoTexto(ER_CIFRAS, tfNumPaginas));
-    	tfDuracion.textProperty().addListener((ob, ov, nv) -> compruebaCampoTexto(ER_CIFRAS, tfDuracion));
-    	
+    	tfTitulo.textProperty().addListener((ob, ov, nv) -> compruebaCampoTexto(tfTitulo));
+    	tfAutor.textProperty().addListener((ob, ov, nv) -> compruebaCampoTexto(tfAutor));
+    	tfPaginaDuracion.textProperty().addListener((ob, ov, nv) -> compruebaCampoTexto(tfPaginaDuracion));
+    	cbTipoLibro.valueProperty().addListener((ob, ov, nv) -> actualizarLibro(cbTipoLibro));
     }
-   
-	public void setControladorMVC(IControlador controladorMVC) {
+    
+    public void setControladorMVC(IControlador controladorMVC) {
 		this.controladorMVC = controladorMVC;
 	}
-
+    
 	public void setLibros(ObservableList<Libro> libros) {
 		this.libros = libros;
 	}
-
+    
     @FXML
     private void anadirLibro(ActionEvent event) {
     	Libro libro = null;
@@ -68,62 +60,51 @@ public class ControladorAnadirLibro {
     	} catch (Exception e) {
     		Dialogos.mostrarDialogoError("Añadir Libro", e.getMessage());
     	}
-    }
-	
+    }    
+
 	@FXML 
 	private void cancelar(ActionEvent event) {
 		((Stage) btCancelar.getScene().getWindow()).close();
 	}
-	
+    
 	public void inicializa() {
+		cbTipoLibro.getItems().setAll("Libro Escrito", "Audiolibro");
+		cbTipoLibro.getSelectionModel().select("Libro Escrito");
 		tfTitulo.setText("");
-		compruebaCampoTexto(ER_OBLIGATORIO, tfTitulo);
+		compruebaCampoTexto(tfTitulo);
 		tfAutor.setText("");
-		compruebaCampoTexto(ER_OBLIGATORIO, tfAutor);
-		tgTipoLibro.selectToggle(rbLibroEscrito);
-		tfNumPaginas.setText("");
-		//compruebaCampoTexto(ER_CIFRAS, tfNumPaginas);
-		tfDuracion.setText("");
-		//compruebaCampoTexto(ER_CIFRAS, tfDuracion);
-	}
+		compruebaCampoTexto(tfAutor);
+		tfPaginaDuracion.setText("");
+		compruebaCampoTexto(tfPaginaDuracion);
+	} 
 	
-	private void compruebaCampoTexto(String er, TextField campoTexto) {	
-		
+	private void actualizarLibro(ComboBox<String> tipo) {
+    	if (tipo.getValue()=="Libro Escrito") {
+    		lbPaginaDuracion.setText("Páginas");
+    	} else {
+    		lbPaginaDuracion.setText("Duración");
+    	}
+    }
+    
+	private void compruebaCampoTexto(TextField campoTexto) {	
 		String texto = campoTexto.getText();
-		if (texto.matches(er)) {
+		if (!texto.isEmpty()) {
 			campoTexto.setStyle("-fx-border-color: green; -fx-border-radius: 5;");
 		}
 		else {
 			campoTexto.setStyle("-fx-border-color: red; -fx-border-radius: 5;");
 		}
-	}
-	
-	private void habilitaSeleccion() {
-		RadioButton seleccionado = (RadioButton) tgTipoLibro.getSelectedToggle();
-		if (seleccionado == rbLibroEscrito) {
-			tfNumPaginas.setDisable(false);
-			tfDuracion.setDisable(true);
-		} else {
-			tfNumPaginas.setDisable(true);
-			tfDuracion.setDisable(false);
-		}
-	}
-	
-	private Libro getLibro() throws OperationNotSupportedException {
-		
+	}    
+    
+	private Libro getLibro() {
 		String titulo = tfTitulo.getText();
 		String autor = tfAutor.getText();
-		Libro libro = null;
-		
-		RadioButton seleccionado = (RadioButton) tgTipoLibro.getSelectedToggle();
-		if (seleccionado == rbLibroEscrito) {
-			int numPaginas = Integer.parseInt(tfNumPaginas.getText());
-			libro = new LibroEscrito(titulo, autor, numPaginas);
+		String paginaDuracion = tfPaginaDuracion.getText();
+		if (cbTipoLibro.getValue()=="Libro Escrito") {
+			return new LibroEscrito(titulo, autor, Integer.parseInt(paginaDuracion));
 		} else {
-			int duracion = Integer.parseInt(tfDuracion.getText());
-			libro = new AudioLibro(titulo, autor, duracion);
+			return new AudioLibro(titulo, autor, Integer.parseInt(paginaDuracion));
 		}
-		return libro;
-	}
+	}   
 
 }
