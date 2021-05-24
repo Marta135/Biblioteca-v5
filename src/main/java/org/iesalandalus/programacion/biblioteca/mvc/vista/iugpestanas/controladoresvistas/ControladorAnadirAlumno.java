@@ -1,6 +1,5 @@
 package org.iesalandalus.programacion.biblioteca.mvc.vista.iugpestanas.controladoresvistas;
 
-
 import org.iesalandalus.programacion.biblioteca.mvc.controlador.IControlador;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Alumno;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
