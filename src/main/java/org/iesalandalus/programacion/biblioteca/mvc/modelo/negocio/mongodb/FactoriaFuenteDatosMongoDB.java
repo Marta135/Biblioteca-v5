@@ -9,17 +9,17 @@ public class FactoriaFuenteDatosMongoDB implements IFuenteDatos{
 
 	@Override
 	public IAlumnos crearAlumnos() {
-		return Alumnos();
+		return new Alumnos();
 	}
 
 	@Override
 	public ILibros crearLibros() {
-		return Libros();
+		return new Libros();
 	}
 
 	@Override
 	public IPrestamos crearPrestamos() {
-		return Prestamos();
+		return new Prestamos();
 	}
 
 }

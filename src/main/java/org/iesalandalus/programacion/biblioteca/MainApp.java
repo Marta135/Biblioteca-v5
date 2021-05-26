@@ -20,7 +20,7 @@ public class MainApp {
 
 	public static void main(String[] args) {
 		
-		IModelo modelo = new Modelo(FactoriaFuenteDatos.FICHEROS.crear());
+		IModelo modelo = new Modelo(procesarArgumentosFuenteDatos(args));
 		IVista vista = procesarArgumentosVista(args);
 		IControlador controlador = new Controlador(modelo, vista);
 		controlador.comenzar();
